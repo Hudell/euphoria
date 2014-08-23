@@ -98,7 +98,7 @@ function PersonClass(name)
 
 		if (lockMovement)
 		{
-			mainGame.player.lockMovement();
+			euphoria.player.lockMovement();
 		}
 		me.lockedPlayerMovement = lockMovement;
 
@@ -108,7 +108,7 @@ function PersonClass(name)
 
 	this.closeOpenMessage = function()
 	{
-		mainGame.windowManager.closeBoxByOwner(me);
+		euphoria.windowManager.closeBoxByOwner(me);
 	};
 
 	this.continueConversation = function()
@@ -127,7 +127,7 @@ function PersonClass(name)
 
 			if (currentMessage.person === 'player')
 			{
-				mainGame.player.speak(text, me.continueConversation, me);
+				euphoria.player.speak(text, me.continueConversation, me);
 			}
 			else
 			{
@@ -142,7 +142,7 @@ function PersonClass(name)
 
 			if (me.lockedPlayerMovement)
 			{
-				mainGame.player.unlockMovement();
+				euphoria.player.unlockMovement();
 				me.lockedPlayerMovement = false;
 			}
 		}
@@ -150,6 +150,6 @@ function PersonClass(name)
 
 	this.speak = function(message, onCloseMessage, owner)
 	{
-		mainGame.windowManager.addTextOnObject(me, message, onCloseMessage, owner, owner.speakTimeout);
+		euphoria.windowManager.addTextOnObject(me, message, onCloseMessage, owner, owner.speakTimeout);
 	};
 }

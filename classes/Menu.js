@@ -16,8 +16,8 @@ function MenuClass() {
 
 	me.draw = function()
 	{
-		var windowStyle = mainGame.windowManager.getDefaultWindowStyle();
-		var font = mainGame.windowManager.getDefaultFont();
+		var windowStyle = euphoria.windowManager.getDefaultWindowStyle();
+		var font = euphoria.windowManager.getDefaultFont();
 		var fontHeight = font.getHeight();
 		var lineHeight = fontHeight + 10;
 		var arrow = GetSystemArrow();
@@ -82,7 +82,7 @@ function MenuClass() {
 
 	me.onClose = function()
 	{
-		mainGame.openMenu = null;
+		euphoria.openMenu = null;
 	};
 
 	me.onSelect = function(selectionIndex)
@@ -92,7 +92,7 @@ function MenuClass() {
 
 	me.open = function(backgroundImage)
 	{
-		mainGame.openMenu = me;
+		euphoria.openMenu = me;
 
 		while (true)
 		{
@@ -118,7 +118,7 @@ function MenuClass() {
 		if (me.selection < 0)
 			me.selection = me.options.length -1;
 
-		mainGame.soundManager.playEffectFile('Decision1.ogg');
+		euphoria.soundManager.playEffectFile(gameConfig.soundFiles.menuMoveUp);
 	};
 
 	me.goDown = function()
@@ -127,13 +127,13 @@ function MenuClass() {
 		if (me.selection >= me.options.length)
 			me.selection = 0;
 
-		mainGame.soundManager.playEffectFile('Decision1.ogg');
+		euphoria.soundManager.playEffectFile(gameConfig.soundFiles.menuMoveDown);
 	};
 
 	me.activateOption = function()
 	{
 		me.onSelect(me.selection);
-		// mainGame.soundManager.playEffectFile('Decision2.ogg');
+		euphoria.soundManager.playEffectFile(gameConfig.soundFiles.menuDecision);
 		me.options[me.selection].onClick();
 	};
 }

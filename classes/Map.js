@@ -36,12 +36,12 @@ function MapClass(mapName) {
 
 	me.registerEvents = function()
 	{
-		mainGame.keyboardEvents.registerEvent('keyPress', me.onKeyPress);
+		euphoria.keyboardEvents.registerEvent('keyPress', me.onKeyPress);
 	};
 
 	me.unregisterEvents = function()
 	{
-		mainGame.keyboardEvents.unregisterEvent('keyPress', me.onKeyPress);
+		euphoria.keyboardEvents.unregisterEvent('keyPress', me.onKeyPress);
 	};
 
 	me.onKeyPress = function(key)
@@ -66,7 +66,7 @@ function MapClass(mapName) {
 			me.objectList[i].object.doFrame();
 		}
 
-		mainGame.player.person.doFrame();
+		euphoria.player.person.doFrame();
 
 		me.doMapFrame();
 	};
@@ -143,7 +143,7 @@ function MapClass(mapName) {
 
 	me.createSimpleObject = function(name, spriteName)
 	{
-		var object = mainGame.db.createSimpleObject(name, spriteName);
+		var object = euphoria.db.createSimpleObject(name, spriteName);
 		me.registerObject(name, object);
 		return object;
 	};

@@ -41,7 +41,7 @@ function ObjectClass(name) {
 
 	me.registerEvents = function()
 	{
-		var methodCall = "var obj = mainGame.getDb().getObject('" + me.name + "'); if (obj) obj";
+		var methodCall = "var obj = euphoria.getDb().getObject('" + me.name + "'); if (obj) obj";
 
 		SetPersonScript(me.name, SCRIPT_ON_DESTROY, methodCall + ".onDestroy();");
 		// SetPersonScript(me.name, SCRIPT_ON_ACTIVATE_TOUCH, methodCall + ".doOnTouch();");
@@ -237,7 +237,7 @@ function ObjectClass(name) {
 	//track the object distance to the player, used to call the onUntouch event
 	me.trackDistance = function()
 	{
-		mainGame.mapManager.trackObjectDistance(me);
+		euphoria.mapManager.trackObjectDistance(me);
 	};
 
 	me.onUntouch = function()

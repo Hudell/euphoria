@@ -10,16 +10,14 @@ function SoundManagerClass() {
 
 	me.playSongFile = function(songFile)
 	{
-		me.playSong(mainGame.globalDb.loadSong(songFile));
+		me.playSong(euphoria.globalDb.loadSong(songFile));
 	};
 
 	me.playSong = function(song)
 	{
-		if (me.currentSong !== null)
-			me.stopSong();
-
+		me.stopSong();
 		me.currentSong = song;
-		if (mainGame.allowMusic)
+		if (euphoria.allowMusic && song)
 			song.play(true);
 	};
 
@@ -44,12 +42,13 @@ function SoundManagerClass() {
 
 	me.playEffectFile = function(soundEffectFile)
 	{
-		me.playEffect(mainGame.globalDb.loadSoundEffect(soundEffectFile));
+		if (soundEffectFile)
+			me.playEffect(euphoria.globalDb.loadSoundEffect(soundEffectFile));
 	};
 
 	me.playEffect = function(effect)
 	{
-		if (mainGame.allowSoundEffects)
+		if (euphoria.allowSoundEffects)
 			effect.play();
 	};
 }

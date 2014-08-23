@@ -24,18 +24,18 @@ function MapManagerClass() {
 
 	me.changeMap = function(map)
 	{
-		mainGame.windowManager.closeAll();
+		euphoria.windowManager.closeAll();
 
 		if (me.currentMap !== null)
 		{
 			me.currentMap.unregisterEvents();
 			me.currentMap.uninitializeMap();
-			mainGame.player.unloadPerson();
+			euphoria.player.unloadPerson();
 
 			if (me.currentMap.twoDimensional)
 			{
-				mainGame.keyboardEvents.safeUnbind(KEY_UP);
-				mainGame.keyboardEvents.safeUnbind(KEY_DOWN);
+				euphoria.keyboardEvents.safeUnbind(KEY_UP);
+				euphoria.keyboardEvents.safeUnbind(KEY_DOWN);
 			}
 		}
 
@@ -43,7 +43,7 @@ function MapManagerClass() {
 		map.initializeMap();
 		me.currentMap.registerEvents();
 
-		mainGame.windowManager.addScoreBox();
+		euphoria.windowManager.addScoreBox();
 
 		if (!IsMapEngineRunning())
 		{
@@ -51,7 +51,7 @@ function MapManagerClass() {
 			return;
 		}
 
-		mainGame.ranFirstFrame = false;
+		euphoria.ranFirstFrame = false;
 		ChangeMap(map.name);
 	};
 
@@ -76,8 +76,8 @@ function MapManagerClass() {
 
 	me.checkIfPlayerIsTouchingPerson = function(person)
 	{
-		var playerPosition = mainGame.player.getMapPosition();
-		var playerDirection = GetPersonDirection(mainGame.player.person.name);
+		var playerPosition = euphoria.player.getMapPosition();
+		var playerDirection = GetPersonDirection(euphoria.player.person.name);
 		var newPosition = { x : playerPosition.x, y : playerPosition.y};
 
 		switch(playerDirection)
@@ -98,7 +98,7 @@ function MapManagerClass() {
 				break;
 		}
 
-		var name = GetObstructingPerson(mainGame.player.person.name, newPosition.x, newPosition.y);
+		var name = GetObstructingPerson(euphoria.player.person.name, newPosition.x, newPosition.y);
 		if (person)
 			return name == person.name;
 		else

@@ -33,15 +33,15 @@ function KeyboardEventsClass() {
 
 			if (!IsKeyPressed(KEY_LEFT) && !IsKeyPressed(KEY_RIGHT))
 			{
-				if (mainGame.mapManager.currentMap.twoDimensional || (!IsKeyPressed(KEY_UP) && !IsKeyPressed(KEY_DOWN)))
+				if (euphoria.mapManager.currentMap.twoDimensional || (!IsKeyPressed(KEY_UP) && !IsKeyPressed(KEY_DOWN)))
 				{
-					mainGame.player.fixPlayerFrame();
+					euphoria.player.fixPlayerFrame();
 				}
 			}
 		}
 		else
 		{
-			mainGame.player.fixPlayerFrame();
+			euphoria.player.fixPlayerFrame();
 		}
 	};
 
@@ -50,7 +50,7 @@ function KeyboardEventsClass() {
 		BindKey(KEY_LEFT, null, null);
 		BindKey(KEY_RIGHT, null, null);
 
-		if (!mainGame.mapManager.currentMap.twoDimensional)
+		if (!euphoria.mapManager.currentMap.twoDimensional)
 		{
 			BindKey(KEY_UP, null, null);
 			BindKey(KEY_DOWN, null, null);

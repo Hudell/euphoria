@@ -15,4 +15,4 @@ function PlayerPersonClass(name) {
 	};	
 }
 
-mainGame.globalDb.registerObjectClass("PlayerPerson", PlayerPersonClass);
+euphoria.globalDb.registerObjectClass("PlayerPerson", PlayerPersonClass);

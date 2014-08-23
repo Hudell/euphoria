@@ -184,7 +184,7 @@ function WindowManagerClass() {
 
 			if (box.timeout)
 			{
-				SetDelayScript(box.timeout, "mainGame.windowManager.closeBoxById(" + box.id + ");");
+				SetDelayScript(box.timeout, "euphoria.windowManager.closeBoxById(" + box.id + ");");
 			}
 		}
 
@@ -205,12 +205,12 @@ function WindowManagerClass() {
 
 	me.bindMenuKeys = function(menuId)
 	{
-		BindKey(KEY_UP, "mainGame.openMenu.goUp();", "");
-		BindKey(KEY_DOWN, "mainGame.openMenu.goDown();", "");
+		BindKey(KEY_UP, "euphoria.openMenu.goUp();", "");
+		BindKey(KEY_DOWN, "euphoria.openMenu.goDown();", "");
 		BindKey(KEY_LEFT, "", "");
 		BindKey(KEY_RIGHT, "", "");
-		BindKey(KEY_ENTER, "mainGame.openMenu.activateOption();", "");
-		BindKey(KEY_ESCAPE, "mainGame.windowManager.closeMenu(" + menuId + ");", "");
+		BindKey(KEY_ENTER, "euphoria.openMenu.activateOption();", "");
+		BindKey(KEY_ESCAPE, "euphoria.windowManager.closeMenu(" + menuId + ");", "");
 	};
 
 	me.unbindMenuKeys = function()
@@ -231,13 +231,13 @@ function WindowManagerClass() {
 	me.showMenu = function(menu, id)
 	{
 		menu.draw();
-		mainGame.openMenu = menu;
+		euphoria.openMenu = menu;
 
 		me.bindMenuKeys(id);
 		menu.onSelect = function(selectionIdx){
 			me.unbindMenuKeys();
 
-			mainGame.player.setPerson(mainGame.player.person);
+			euphoria.player.setPerson(euphoria.player.person);
 		};
 	};
 
@@ -261,7 +261,7 @@ function WindowManagerClass() {
 		var position = { x : GetScreenWidth() - 20, y : 50 };
 		var font = me.getDefaultFont();
 
-		var text = 'Score: ' + mainGame.score;
+		var text = 'Score: ' + euphoria.score;
 
 		position.width = font.getStringWidth(text);
 		position.x = position.x - position.width;

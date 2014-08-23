@@ -25,86 +25,86 @@ function MapDbClass() {
 	/*
 		DON'T CALL ANY OF THESE METHODS.
 
-		You should call the mainGame.globalDb version instead, but even if you call from here, this class will just redirect the call to there.
+		You should call the euphoria.globalDb version instead, but even if you call from here, this class will just redirect the call to there.
 	*/
 
 	me.createMap = function(mapName, mapClassName)
 	{
-		return mainGame.globalDb.createMap(mapName, mapClassName);
+		return euphoria.globalDb.createMap(mapName, mapClassName);
 	};
 
 	me.getMap = function(mapName)
 	{
-		return mainGame.globalDb.getMap(mapName);
+		return euphoria.globalDb.getMap(mapName);
 	};
 
 	me.getOrCreateMap = function(mapName, mapClassName)
 	{
-		return mainGame.globalDb.getOrCreateMap(mapName, mapClassName);
+		return euphoria.globalDb.getOrCreateMap(mapName, mapClassName);
 	};
 
 	me.getItem = function(itemClassName)
 	{
-		return mainGame.globalDb.getItem(itemClassName);
+		return euphoria.globalDb.getItem(itemClassName);
 	};
 
 	me.loadImage = function(imageFileName)
 	{
-		return mainGame.globalDb.loadImage(imageFileName);
+		return euphoria.globalDb.loadImage(imageFileName);
 	};
 
 	me.createItem = function(itemClassName)
 	{
-		return mainGame.globalDb.createItem(itemClassName);
+		return euphoria.globalDb.createItem(itemClassName);
 	};
 
 	me.registerItem = function(itemName, item)
 	{
-		return mainGame.globalDb.registerItem(itemName, item);
+		return euphoria.globalDb.registerItem(itemName, item);
 	};
 
 	me.getItemClass = function(itemClassName)
 	{
-		return mainGame.globalDb.getItemClass(itemClassName);
+		return euphoria.globalDb.getItemClass(itemClassName);
 	};
 
 	me.registerItemClass = function(itemClassName, itemClass)
 	{
-		mainGame.globalDb.registerItemClass(itemClassName, itemClass);
+		euphoria.globalDb.registerItemClass(itemClassName, itemClass);
 	};
 
 	me.getAIClass = function(aiClassName)
 	{
-		return mainGame.globalDb.getAIClass(aiClassName);
+		return euphoria.globalDb.getAIClass(aiClassName);
 	};
 	
 	me.registerAIClass = function(aiClassName, aiClass)
 	{
-		mainGame.globalDb.registerAIClass(aiClassName, aiClass);
+		euphoria.globalDb.registerAIClass(aiClassName, aiClass);
 	};
 
 	me.getObjectClass = function(objectClassName)
 	{
-		return mainGame.globalDb.getObjectClass(objectClassName);
+		return euphoria.globalDb.getObjectClass(objectClassName);
 	};
 
 	me.registerObjectClass = function(objectClassName, objectClass)
 	{
-		mainGame.globalDb.registerObjectClass(objectClassName, objectClass);
+		euphoria.globalDb.registerObjectClass(objectClassName, objectClass);
 	};
 
 	me.registerMap = function(mapName, mapInstance)
 	{
-		mainGame.globalDb.registerMap(mapName, mapInstance);
+		euphoria.globalDb.registerMap(mapName, mapInstance);
 	};
 
 	me.getMapClass = function(mapClassName)
 	{
-		return mainGame.globalDb.getMapClass(mapClassName);
+		return euphoria.globalDb.getMapClass(mapClassName);
 	};
 
 	me.registerMapClass = function(mapClassName, mapClass)
 	{
-		mainGame.globalDb.registerMapClass(mapClassName, mapClass);
+		euphoria.globalDb.registerMapClass(mapClassName, mapClass);
 	};
 }

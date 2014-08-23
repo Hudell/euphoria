@@ -20,7 +20,7 @@ function PlayerClass() {
 	{
 		me.lives += number;
 		
-		mainGame.soundManager.playEffectFile('Recovery.ogg');
+		euphoria.soundManager.playEffectFile(gameConfig.soundFiles.getLives);
 	};
 
 	me.removeLive = function()
@@ -47,10 +47,10 @@ function PlayerClass() {
 		if (!IsInputAttached())
 			me.person.attachInput();
 		
-		if (mainGame.mapManager.currentMap.twoDimensional)
+		if (euphoria.mapManager.currentMap.twoDimensional)
 		{
-			BindKey(KEY_UP, "mainGame.player.person.jump();", null);
-			BindKey(KEY_CTRL, "mainGame.player.person.jump();", null);
+			BindKey(KEY_UP, "euphoria.player.person.jump();", null);
+			BindKey(KEY_CTRL, "euphoria.player.person.jump();", null);
 			BindKey(KEY_DOWN, null, null);
 		}
 	};
@@ -72,12 +72,12 @@ function PlayerClass() {
 
 	me.lockMovement = function()
 	{
-		mainGame.keyboardEvents.lockPlayerMovement();
+		euphoria.keyboardEvents.lockPlayerMovement();
 	};
 
 	me.unlockMovement = function()
 	{
-		mainGame.keyboardEvents.unlockPlayerMovement();
+		euphoria.keyboardEvents.unlockPlayerMovement();
 	};
 
 	me.getPosition = function()

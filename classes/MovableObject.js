@@ -67,8 +67,8 @@ function MovableObjectClass(name) {
 		if (!me.canJump())
 			return;
 
-		if (me.makeSounds && mainGame.allowJumpingEffect)
-			mainGame.soundManager.playEffectFile('Jump2.ogg');
+		if (me.makeSounds && euphoria.allowJumpingEffect)
+			euphoria.soundManager.playEffectFile(gameConfig.soundFiles.jump);
 
 		me.jumping = true;
 		me.jumpingFrame = 0;
@@ -76,14 +76,14 @@ function MovableObjectClass(name) {
 
 	me.setAi = function(aiClassName)
 	{
-		var aiClass = mainGame.globalDb.getAIClass(aiClassName);
+		var aiClass = euphoria.globalDb.getAIClass(aiClassName);
 		me.ai = new aiClass(me);
 	};
 
 	me.canJump = function()
 	{
 		//It can only jump if it's standing in some ground
-		return mainGame.mapManager.currentMap.twoDimensional && !me.jumping && me.isOnGround();
+		return euphoria.mapManager.currentMap.twoDimensional && !me.jumping && me.isOnGround();
 	};
 
 	me.getDistanceToGround = function(maxDistance)
@@ -127,7 +127,7 @@ function MovableObjectClass(name) {
 		var personName = GetObstructingPerson(me.name, position.x + xDistance, position.y + yDistance);
 		if (personName)
 		{
-			var person = mainGame.getDb().getObject(personName);
+			var person = euphoria.getDb().getObject(personName);
 			if (person)
 			{
 				person.onTouch(me);
@@ -137,13 +137,13 @@ function MovableObjectClass(name) {
 
 	me.applyJumping = function()
 	{
-		if (mainGame.paused)
+		if (euphoria.paused)
 			return;
 		
 		var keepJumping = true;
-		if (me == mainGame.player.person)
+		if (me == euphoria.player.person)
 		{
-			keepJumping = mainGame.keyboardEvents.isJumpButtonPressed();
+			keepJumping = euphoria.keyboardEvents.isJumpButtonPressed();
 		}
 
 		if (me.jumpingFrame < 20 && keepJumping)
@@ -188,7 +188,7 @@ function MovableObjectClass(name) {
 	{
 		if (!me.obeyGravityLaws)
 			return;
-		if (mainGame.paused)
+		if (euphoria.paused)
 			return;
 
 		var distance = me.getDistanceToGround(7);
@@ -209,7 +209,7 @@ function MovableObjectClass(name) {
 		}
 		me.onFrame();
 
-		if (mainGame.mapManager.currentMap.twoDimensional)
+		if (euphoria.mapManager.currentMap.twoDimensional)
 		{
 			if (me.jumping)
 			{

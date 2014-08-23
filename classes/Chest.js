@@ -14,7 +14,7 @@ function ChestClass(name) {
 		if (!me.closed)
 			return;
 
-		mainGame.player.lockMovement();
+		euphoria.player.lockMovement();
 		me.showNextFrame();
 	};
 
@@ -22,16 +22,16 @@ function ChestClass(name) {
 	{
 		if (me.frameIndex < 3)
 		{
-			SetDelayScript(3, "var obj = mainGame.getDb().getObject('" + me.name + "'); if (obj) obj.showNextFrame();");
+			SetDelayScript(3, "var obj = euphoria.getDb().getObject('" + me.name + "'); if (obj) obj.showNextFrame();");
 			me.faceLeft();
 			me.frameIndex++;
 		}
 		else if (me.frameIndex == 3)
 		{
-			mainGame.soundManager.playEffectFile('Chest.ogg');
+			euphoria.soundManager.playEffectFile(gameConfig.soundFiles.chest);
 			me.onOpen();
 			me.closed = false;
-			mainGame.player.unlockMovement();
+			euphoria.player.unlockMovement();
 		}
 	};
 

@@ -1,4 +1,4 @@
-var mainGame = {
+var euphoria = {
 	ranFirstFrame : false,
 	player : new PlayerClass(),
 	mapManager : new MapManagerClass(),
@@ -18,8 +18,8 @@ var mainGame = {
 
 	startGame : function(initialStateManager)
 	{
-		SetRenderScript("mainGame.doFrame()");
-		BindKey(KEY_D, "mainGame.debug();", null);
+		SetRenderScript("euphoria.doFrame()");
+		BindKey(KEY_D, "euphoria.debug();", null);
 
 		this.gameStateManager.addState(initialStateManager);
 	},
