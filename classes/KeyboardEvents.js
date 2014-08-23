@@ -8,12 +8,6 @@ function KeyboardEventsClass() {
 
 	me.checkKeyEvents = function(key)
 	{
-		if (key === KEY_T)
-		{
-			me.runEvent("talkKey");
-			return;
-		}
-
 		me.runEvent("keyPress", key);
 	};
 

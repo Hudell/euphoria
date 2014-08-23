@@ -24,6 +24,8 @@ function ObjectClass(name) {
 			CreatePerson(me.name, me.spriteName, destroyWithMap);
 		}
 
+		SetPersonFrameRevert(me.name, 8);
+
 		me.created = true;
 		me.registerEvents();
 
