@@ -5,8 +5,8 @@ var mainGame = {
 	keyboardEvents : new KeyboardEventsClass(),
 	windowManager : new WindowManagerClass(),
 	soundManager : new SoundManagerClass(),
+	gameStateManager : new GameStateManagerClass(),
 	inventory : new InventoryClass(),
-	currentFlow : null,
 	globalDb : new DbClass(),
 	allowMusic : true,
 	allowSoundEffects : true,
@@ -16,29 +16,17 @@ var mainGame = {
 	paused : false,
 	flags : {},
 
-	startGame : function(initialFlow)
+	startGame : function(initialStateManager)
 	{
 		SetRenderScript("mainGame.doFrame()");
-
 		BindKey(KEY_D, "mainGame.debug();", null);
 
-		this.moveToNewFlow(initialFlow);
+		this.gameStateManager.addState(initialStateManager);
 	},
 
 	doOnFirstFrame : function()
 	{
-		this.currentFlow.onFirstFrame();
-	},
-
-	moveToNewFlow : function(newFlow)
-	{
-		if (this.currentFlow !== null)
-		{
-			this.currentFlow.end();
-		}
-
-		this.currentFlow = newFlow;
-		this.currentFlow.run();
+		this.gameStateManager.doFirstFrame();
 	},
 
 	doFrame : function()
@@ -49,7 +37,7 @@ var mainGame = {
 			this.ranFirstFrame = true;
 		}
 
-		this.currentFlow.onFrame();
+		this.gameStateManager.doFrame();
 		this.windowManager.drawBoxes();
 	},
 
