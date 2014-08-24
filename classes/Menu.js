@@ -8,6 +8,7 @@ function MenuClass() {
 
 	me.options = [];
 	me.selection = 0;
+	me.text = null;
 
 	me.doFrame = function()
 	{
@@ -29,6 +30,14 @@ function MenuClass() {
 		var menuHeight = (fontHeight + 10) * me.options.length;
 		var menuWidth = 0;
 		var i = 0;
+		var marginHeight = 0;
+
+		if (me.text !== null)
+		{
+			menuWidth = font.getStringWidth(me.text);
+			marginHeight = fontHeight + 10;
+			menuHeight += marginHeight;
+		}
 		
 		for (i = 0; i < me.options.length; i++)
 		{
@@ -51,13 +60,19 @@ function MenuClass() {
 
 		windowStyle.drawWindow(x, y, 200, menuHeight);
 
-		for (i = 0; i < me.options.length; i++)
+		font.setColorMask(color);
+
+		if (me.text !== null)
 		{
-			font.setColorMask(color);
-			font.drawText(x + 30, y + 5 + (lineHeight * i), me.options[i].title);
+			font.drawText(x + 30, y + 5, me.text);
 		}
 
-		arrow.blit(x, y + 5 + (lineHeight * me.selection));
+		for (i = 0; i < me.options.length; i++)
+		{
+			font.drawText(x + 30, y + marginHeight + 5 + (lineHeight * i), me.options[i].title);
+		}
+
+		arrow.blit(x, y + marginHeight + 5 + (lineHeight * me.selection));
 	};
 
 	me.handle = function(flipScreen)
