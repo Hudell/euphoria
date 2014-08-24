@@ -11,5 +11,6 @@ RequireScript("euphoria/classes/MapManager.js");
 RequireScript("euphoria/classes/WindowManager.js");
 RequireScript("euphoria/classes/SoundManager.js");
 RequireScript("euphoria/classes/KeyboardEvents.js");
+RequireScript("euphoria/classes/ScriptManager.js");
 
 RequireScript("euphoria/euphoria.js");

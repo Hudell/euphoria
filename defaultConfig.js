@@ -10,6 +10,13 @@ var gameConfig = {
 
 		jump : null,
 		getLives : null
-	}
+	},
 
+
+	keyBinds : {
+		jump : [
+			KEY_UP,
+			KEY_CTRL
+		]
+	}
 };

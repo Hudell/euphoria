@@ -22,7 +22,10 @@ function ChestClass(name) {
 	{
 		if (me.frameIndex < 3)
 		{
-			SetDelayScript(3, "var obj = euphoria.getDb().getObject('" + me.name + "'); if (obj) obj.showNextFrame();");
+			scriptManager.setDelayScript(3, function(){
+				me.showNextFrame();
+			});
+
 			me.faceLeft();
 			me.frameIndex++;
 		}

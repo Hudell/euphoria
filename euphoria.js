@@ -19,7 +19,8 @@ var euphoria = {
 	startGame : function(initialStateManager)
 	{
 		SetRenderScript("euphoria.doFrame()");
-		BindKey(KEY_D, "euphoria.debug();", null);
+
+		scriptManager.bindKey(KEY_D, function(){ euphoria.debug(); }, null);
 
 		this.gameStateManager.addState(initialStateManager);
 	},

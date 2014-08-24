@@ -49,9 +49,17 @@ function PlayerClass() {
 		
 		if (euphoria.mapManager.currentMap.twoDimensional)
 		{
-			BindKey(KEY_UP, "euphoria.player.person.jump();", null);
-			BindKey(KEY_CTRL, "euphoria.player.person.jump();", null);
+			var jumpFn = function(){
+				me.person.jump();
+			};
+
+			BindKey(KEY_UP, null, null);
 			BindKey(KEY_DOWN, null, null);
+
+			for (var i = 0; i < gameConfig.keyBinds.jump.length; i++)
+			{
+				scriptManager.bindKey(gameConfig.keyBinds.jump[i], jumpFn, null);
+			}
 		}
 	};
 
