@@ -206,7 +206,9 @@ function ObjectClass(name) {
 	me.getTopPosition = function()
 	{
 		var position = me.getPosition();
-		//Muda o valor pq a getPosition não considera a posição do sprite, mas da base dele
+	
+		// Changes value to compensate base size
+		// This needs a better solution
 		position.y -= 30;
 		position.x += 32;
 
@@ -247,7 +249,6 @@ function ObjectClass(name) {
 
 	me.onTalk = function()
 	{
-		
 	};
 
 	me.onCreate = function()

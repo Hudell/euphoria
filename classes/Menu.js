@@ -32,6 +32,11 @@ function MenuClass() {
 		
 		for (i = 0; i < me.options.length; i++)
 		{
+			if (me.options[i].titleFn)
+			{
+				me.options[i].title = me.options[i].titleFn();
+			}
+
 			var stringWidth = font.getStringWidth(me.options[i].title);
 			if (stringWidth > menuWidth)
 				menuWidth = stringWidth;

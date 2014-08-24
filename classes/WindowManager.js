@@ -175,7 +175,7 @@ function WindowManagerClass() {
 					break;
 
 				case 'menu' :
-					me.showMenu(box.menu);
+					// me.showMenu(box.menu);
 					break;
 
 				default :
@@ -201,44 +201,6 @@ function WindowManagerClass() {
 	me.getDefaultFont = function()
 	{
 		return GetSystemFont();
-	};
-
-	me.bindMenuKeys = function(menuId)
-	{
-		BindKey(KEY_UP, "euphoria.openMenu.goUp();", "");
-		BindKey(KEY_DOWN, "euphoria.openMenu.goDown();", "");
-		BindKey(KEY_LEFT, "", "");
-		BindKey(KEY_RIGHT, "", "");
-		BindKey(KEY_ENTER, "euphoria.openMenu.activateOption();", "");
-		BindKey(KEY_ESCAPE, "euphoria.windowManager.closeMenu(" + menuId + ");", "");
-	};
-
-	me.unbindMenuKeys = function()
-	{
-		UnbindKey(KEY_UP);
-		UnbindKey(KEY_DOWN);
-		UnbindKey(KEY_LEFT);
-		UnbindKey(KEY_RIGHT);
-		UnbindKey(KEY_ENTER);
-		UnbindKey(KEY_ESCAPE);
-	};
-
-	me.closeMenu = function(menuId)
-	{
-		me.closeBoxById(menuId);
-	};
-
-	me.showMenu = function(menu, id)
-	{
-		menu.draw();
-		euphoria.openMenu = menu;
-
-		me.bindMenuKeys(id);
-		menu.onSelect = function(selectionIdx){
-			me.unbindMenuKeys();
-
-			euphoria.player.setPerson(euphoria.player.person);
-		};
 	};
 
 	me.showInfoBox = function(text)

@@ -7,24 +7,38 @@ function GameStateClass() {
 	me.superClass();
 	me.name = null;
 
-	me.getStackPosition = function()
-	{
-
-	};
-
 	me.run = function()
 	{
-		me.onGetPriority();
+		me.doGetPriority();
+		me.onRun();
+	};
+
+	me.onRun = function()
+	{
+
 	};
 
 	me.end = function()
 	{
+		me.onEnd();
+		me.doLosePriority();
+	};
 
+	me.onEnd = function()
+	{
+
+	};
+
+	me.doGetPriority = function()
+	{
+		me.onGetPriority();
+		me.bindStateKeys();
 	};
 
 	me.doLosePriority = function()
 	{
 		me.onLosePriority();
+		me.unbindStateKeys();
 	};
 
 	me.onLosePriority = function()
@@ -34,7 +48,6 @@ function GameStateClass() {
 
 	me.onGetPriority = function()
 	{
-
 	};
 
 	me.doFrame = function()
@@ -53,6 +66,16 @@ function GameStateClass() {
 	};
 
 	me.onFirstFrame = function()
+	{
+
+	};
+
+	me.bindStateKeys = function()
+	{
+
+	};
+
+	me.unbindStateKeys = function()
 	{
 
 	};

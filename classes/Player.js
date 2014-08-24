@@ -44,6 +44,9 @@ function PlayerClass() {
 
 	me.attachInput = function()
 	{
+		if (!me.person)
+			return;
+
 		if (!IsInputAttached())
 			me.person.attachInput();
 		
@@ -65,7 +68,8 @@ function PlayerClass() {
 
 	me.attachCamera = function()
 	{
-		me.person.attachCamera();
+		if (me.person)
+			me.person.attachCamera();
 	};
 
 	me.speak = function(message, onCloseMessage, owner)

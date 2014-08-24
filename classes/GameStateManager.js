@@ -33,8 +33,21 @@ function GameStateManagerClass() {
 		}
 
 		var state = me.stack[me.stack.length -1];
+		state.doLosePriority();
 		state.end();
 		me.stack.splice(me.stack.length -1, 1);
+
+		if (me.stack.length > 0)
+		{
+			state = me.stack[me.stack.length -1];
+			state.doGetPriority();
+		}
+	};
+
+	me.releaseAllStates = function()
+	{
+		while (me.stack.length > 0)
+			me.releaseCurrentState();
 	};
 
 	me.getState = function(stateName)
@@ -54,7 +67,9 @@ function GameStateManagerClass() {
 	{
 		for (var i = me.stack.length -1; i >= 0; i--)
 		{
-			me.stack[i][eventName]();
+			var state = me.stack[i];
+
+			state[eventName]();
 		}		
 	};
 
