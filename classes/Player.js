@@ -46,24 +46,41 @@ function PlayerClass() {
 	{
 		if (!me.person)
 			return;
-
-		if (!IsInputAttached())
-			me.person.attachInput();
 		
 		if (euphoria.mapManager.currentMap.twoDimensional)
 		{
+			//Don't use default input on two dimensional maps
+			if (IsInputAttached())
+				DetachInput();
+
 			var jumpFn = function(){
 				me.person.jump();
 			};
+			var walkWest = function(){
+				me.person.walkWest();
+			};
+			var walkEast = function(){
+				me.person.walkEast();
+			};
 
-			BindKey(KEY_UP, null, null);
-			BindKey(KEY_DOWN, null, null);
-
-			for (var i = 0; i < gameConfig.keyBinds.jump.length; i++)
+			var i = 0;
+			for (i = 0; i < gameConfig.keyBinds.jump.length; i++)
 			{
 				scriptManager.bindKey(gameConfig.keyBinds.jump[i], jumpFn, null);
 			}
+
+			// for (i = 0; i < gameConfig.keyBinds.left.length; i++)
+			// {
+			// 	scriptManager.bindKey(gameConfig.keyBinds.left[i], walkWest, null);
+			// }
+
+			// for (i = 0; i < gameConfig.keyBinds.right.length; i++)
+			// {
+			// 	scriptManager.bindKey(gameConfig.keyBinds.right[i], walkEast, null);
+			// }
 		}
+		else if (!IsInputAttached())
+			me.person.attachInput();
 	};
 
 	me.attachCamera = function()

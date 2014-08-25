@@ -14,6 +14,7 @@ var euphoria = {
 	debugging : false,
 	score : 0,
 	paused : false,
+	gravity : true,
 	flags : {},
 
 	startGame : function(initialStateManager)

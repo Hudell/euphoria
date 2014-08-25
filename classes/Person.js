@@ -148,8 +148,8 @@ function PersonClass(name)
 		}
 	};
 
-	this.speak = function(message, onCloseMessage, owner)
+	this.speak = function(message, onCloseMessage, owner, timeout)
 	{
-		euphoria.windowManager.addTextOnObject(me, message, onCloseMessage, owner, owner.speakTimeout);
+		euphoria.windowManager.addTextOnObject(me, message, onCloseMessage, owner, timeout || owner.speakTimeout);
 	};
 }

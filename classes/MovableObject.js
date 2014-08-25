@@ -13,6 +13,7 @@ function MovableObjectClass(name) {
 
 	me.jumpingFrame = 0;
 	me.makeSounds = false;
+	me.animationFrame = 0;
 
 	me.stepTo = function(direction, numSteps)
 	{
@@ -48,8 +49,35 @@ function MovableObjectClass(name) {
 				break;
 		}
 
+		var position = me.getMapPosition();
+
 		for (var i = 0; i < numSteps; i++)
 		{
+			if (command == COMMAND_MOVE_EAST || command == COMMAND_MOVE_WEST)
+			{
+				var xDif = command == COMMAND_MOVE_EAST ? 5 : -5;
+
+				//If the person is obstructed by only 1 vertical pixel, move him up or down to avoid it
+				if (IsPersonObstructed(me.name, position.x + xDif, position.y))
+				{
+					var maxYDistance = 10;
+					if (!IsPersonObstructed(me.name, position.x + xDif, position.y - maxYDistance))
+					{
+						for (var j = 0; j < maxYDistance; j++)
+						{
+							if (!IsPersonObstructed(me.name, position.x + xDif, position.y - j))
+							{
+								me.setPosition(position.x + xDif, position.y - j);
+								break;
+							}
+
+							me.setPosition(position.x + xDif, position.y - maxYDistance);
+						}
+						continue;
+					}
+				}
+			}
+
 			QueuePersonCommand(me.name, command, true);
 		}
 	};
@@ -190,6 +218,8 @@ function MovableObjectClass(name) {
 			return;
 		if (euphoria.paused)
 			return;
+		if (!euphoria.gravity)
+			return;
 
 		var distance = me.getDistanceToGround(7);
 
@@ -255,6 +285,18 @@ function MovableObjectClass(name) {
 	{
 		me.faceEast();
 		me.stepForward(numSteps);
+	};
+
+	me.walkEast = function(frames)
+	{
+		me.faceEast();
+		me.stepEast(frames);
+	};
+
+	me.walkWest = function(frames)
+	{
+		me.faceWest();
+		me.stepWest(frames);
 	};
 
 	me.stepForward = function(numSteps)

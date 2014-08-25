@@ -20,6 +20,7 @@ function MapClass(mapName) {
 			me.db.freeAllObjects();
 
 			me.doInitialize();
+			// me.updateEntitiesIgnoreList();
 		}
 		me.initialized = true;
 	};
@@ -57,6 +58,15 @@ function MapClass(mapName) {
 	me.doUninitialize = function()
 	{
 
+	};
+
+	me.updateEntitiesIgnoreList = function()
+	{
+		for (var i = 0; i < me.objectList.length; i++)
+		{
+			var object = me.objectList[i];
+			object.object.updateIgnoreList();
+		}
 	};
 
 	me.doFrame = function()
@@ -180,6 +190,17 @@ function MapClass(mapName) {
 	};
 
 	me.doFirstFrame = function()
+	{
+		me.onFirstFrame();
+		me.updateEntitiesIgnoreList();
+	};
+
+	me.onFirstFrame = function()
+	{
+
+	};
+
+	me.resetMap = function()
 	{
 
 	};

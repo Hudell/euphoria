@@ -7,6 +7,7 @@ function ObjectClass(name) {
 	me.spriteName = null;
 	me.created = false;
 	me.map = null;
+	me.ignoreObstructions = false;
 
 	me.superClass = BaseClass;
 	me.superClass();
@@ -25,6 +26,11 @@ function ObjectClass(name) {
 		}
 
 		SetPersonFrameRevert(me.name, 8);
+		if (me.ignoreObstructions === true)
+		{
+			IgnoreTileObstructions(me.name, true);
+			IgnorePersonObstructions(me.name, true);
+		}
 
 		me.created = true;
 		me.registerEvents();
@@ -46,6 +52,31 @@ function ObjectClass(name) {
 		SetPersonScript(me.name, SCRIPT_ON_DESTROY, methodCall + ".onDestroy();");
 		// SetPersonScript(me.name, SCRIPT_ON_ACTIVATE_TOUCH, methodCall + ".doOnTouch();");
 		SetPersonScript(me.name, SCRIPT_ON_ACTIVATE_TALK, methodCall + ".onTalk();");
+	};
+
+	me.updateIgnoreList = function()
+	{
+		//If the object is ignoring obstructions, it doesn't need an ignore list
+		if (me.ignoreObstructions === true)
+			return;
+
+		//If the object hasn't been created yet, don't try to update
+		if (!me.created)
+			return;
+
+		var personList = GetPersonList();
+		var idx = personList.indexOf(me.name);
+		if (idx >= 0)
+			personList.splice(idx, 1);
+
+		if (euphoria.player.person)
+		{
+			idx = personList.indexOf(euphoria.player.person.name);
+			if (idx >= 0)
+				personList.splice(idx, 1);
+		}
+
+		SetPersonIgnoreList(me.name, personList);
 	};
 
 	me.getRandomDirection = function()
@@ -176,6 +207,13 @@ function ObjectClass(name) {
 
 	me.setPosition = function(x, y)
 	{
+		//If we received an object isntead of the coordinates, get the coordinates from it
+		if (x.x !== undefined && x.y !== undefined)
+		{
+			SetPersonXYFloat(me.name, x.x, x.y);
+			return;
+		}
+
 		SetPersonXYFloat(me.name, x, y);
 	};
 

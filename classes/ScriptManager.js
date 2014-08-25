@@ -19,6 +19,11 @@ var scriptManager = {
 		return name;
 	},
 
+	eraseScript : function(name)
+	{
+		this.scripts[name] = undefined;
+	},
+
 	runScript : function(name)
 	{
 		if (this.scripts[name])

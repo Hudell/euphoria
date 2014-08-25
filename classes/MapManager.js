@@ -61,6 +61,7 @@ function MapManagerClass() {
 		{
 			me.currentMap.createEntities();
 			me.currentMap.doFirstFrame();
+			me.currentMap.resetMap();
 		}
 	};
 

@@ -17,6 +17,18 @@ var gameConfig = {
 		jump : [
 			KEY_UP,
 			KEY_CTRL
+		],
+		up : [
+			KEY_UP
+		],
+		down : [
+			KEY_DOWN
+		],
+		left : [
+			KEY_LEFT
+		],
+		right : [
+			KEY_RIGHT
 		]
 	}
 };
