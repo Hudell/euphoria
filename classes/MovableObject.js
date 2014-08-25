@@ -53,30 +53,30 @@ function MovableObjectClass(name) {
 
 		for (var i = 0; i < numSteps; i++)
 		{
-			if (command == COMMAND_MOVE_EAST || command == COMMAND_MOVE_WEST)
-			{
-				var xDif = command == COMMAND_MOVE_EAST ? 5 : -5;
+			// if (command == COMMAND_MOVE_EAST || command == COMMAND_MOVE_WEST)
+			// {
+			// 	var xDif = command == COMMAND_MOVE_EAST ? 5 : -5;
 
-				//If the person is obstructed by only 1 vertical pixel, move him up or down to avoid it
-				if (IsPersonObstructed(me.name, position.x + xDif, position.y))
-				{
-					var maxYDistance = 10;
-					if (!IsPersonObstructed(me.name, position.x + xDif, position.y - maxYDistance))
-					{
-						for (var j = 0; j < maxYDistance; j++)
-						{
-							if (!IsPersonObstructed(me.name, position.x + xDif, position.y - j))
-							{
-								me.setPosition(position.x + xDif, position.y - j);
-								break;
-							}
+			// 	//If the person is obstructed by only 1 vertical pixel, move him up or down to avoid it
+			// 	if (IsPersonObstructed(me.name, position.x + xDif, position.y))
+			// 	{
+			// 		var maxYDistance = 10;
+			// 		if (!IsPersonObstructed(me.name, position.x + xDif, position.y - maxYDistance))
+			// 		{
+			// 			for (var j = 0; j < maxYDistance; j++)
+			// 			{
+			// 				if (!IsPersonObstructed(me.name, position.x + xDif, position.y - j))
+			// 				{
+			// 					me.setPosition(position.x + xDif, position.y - j);
+			// 					break;
+			// 				}
 
-							me.setPosition(position.x + xDif, position.y - maxYDistance);
-						}
-						continue;
-					}
-				}
-			}
+			// 				me.setPosition(position.x + xDif, position.y - maxYDistance);
+			// 			}
+			// 			continue;
+			// 		}
+			// 	}
+			// }
 
 			QueuePersonCommand(me.name, command, true);
 		}

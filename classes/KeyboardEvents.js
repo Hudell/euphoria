@@ -33,7 +33,8 @@ function KeyboardEventsClass() {
 
 			if (!IsKeyPressed(KEY_LEFT) && !IsKeyPressed(KEY_RIGHT))
 			{
-				if (euphoria.mapManager.currentMap.twoDimensional || (!IsKeyPressed(KEY_UP) && !IsKeyPressed(KEY_DOWN)))
+				var twoD = euphoria.mapManager.currentMap && euphoria.mapManager.currentMap.twoDimensional;
+				if (twoD || (!IsKeyPressed(KEY_UP) && !IsKeyPressed(KEY_DOWN)))
 				{
 					euphoria.player.fixPlayerFrame();
 				}

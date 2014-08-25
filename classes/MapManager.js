@@ -7,6 +7,7 @@ function MapManagerClass() {
 	me.currentMap = null;
 	me.trackedObjects = [];
 	me.touchTrackedObjects = [];
+	me.reopen = false;
 
 	me.superClass = BaseClass;
 	me.superClass();
@@ -14,12 +15,21 @@ function MapManagerClass() {
 	me.initializeMapEngine = function()
 	{
 		MapEngine(me.currentMap.name, me.fps);
+
+		if (me.reopen)
+		{
+			me.reopen = false;
+			me.initializeMapEngine();
+		}
 	};
 
 	me.endMapEngine = function()
 	{
+		me.currentMap = null;
 		if (IsMapEngineRunning())
+		{
 			ExitMapEngine();
+		}
 	};
 
 	me.changeMap = function(map)
@@ -38,15 +48,19 @@ function MapManagerClass() {
 				euphoria.keyboardEvents.safeUnbind(KEY_DOWN);
 			}
 		}
-
+		
 		me.currentMap = map;
 		map.initializeMap();
 		me.currentMap.registerEvents();
 
 		euphoria.windowManager.addScoreBox();
 
+
 		if (!IsMapEngineRunning())
 		{
+			if (euphoria.debugging)
+				throw "initialize";
+
 			me.initializeMapEngine();
 			return;
 		}

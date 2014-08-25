@@ -9,6 +9,8 @@ function MenuClass() {
 	me.options = [];
 	me.selection = 0;
 	me.text = null;
+	me.xSide = "center";
+	me.ySide = "center";
 
 	me.doFrame = function()
 	{
@@ -51,15 +53,40 @@ function MenuClass() {
 				menuWidth = stringWidth;
 		}
 
-		menuWidth += 30;
+		menuWidth += 60;
 
 		var halfScreenWidth = Math.floor(GetScreenWidth() / 2);
 		var halfScreenHeight = Math.floor(GetScreenHeight() / 2);
-		x = halfScreenWidth - Math.floor(menuWidth / 2);
-		y = halfScreenHeight - Math.floor(menuHeight / 2);
+		var oneThirdScreenWidth = Math.floor(GetScreenWidth() / 3);
+		var oneThirdScreenHeight = Math.floor(GetScreenHeight() / 3);
 
-		windowStyle.drawWindow(x, y, 200, menuHeight);
+		switch(me.xSide)
+		{
+			case "left" :
+				x = oneThirdScreenWidth - Math.floor(menuWidth / 2);
+				break;
+			case "right" :
+				x = oneThirdScreenWidth * 2 - Math.floor(menuWidth / 2);
+				break;
+			default :
+				x = halfScreenWidth - Math.floor(menuWidth / 2);
+				break;
+		}
 
+		switch(me.ySide)
+		{
+			case "top" :
+				y = oneThirdScreenHeight - Math.floor(menuHeight / 2);
+				break;
+			case "bottom" :
+				y = oneThirdScreenHeight * 2 - Math.floor(menuHeight / 2);
+				break;
+			default :
+				y = halfScreenHeight - Math.floor(menuHeight / 2);
+				break;
+		}
+
+		windowStyle.drawWindow(x, y, menuWidth, menuHeight);
 		font.setColorMask(color);
 
 		if (me.text !== null)

@@ -224,13 +224,19 @@ function WindowManagerClass() {
 		var font = me.getDefaultFont();
 
 		var text = 'Score: ' + euphoria.score;
+		var zoom = 2;
 
-		position.width = font.getStringWidth(text);
+		position.width = font.getStringWidth(text) * zoom + 20;
 		position.x = position.x - position.width;
-		me.showTextOnPosition(position, text, null, font, null);
+		
+		var black = CreateColor(0, 0, 0);
+		var white = CreateColor(255, 255, 255);
+		
+		me.showTextOnPosition({x : position.x, y : position.y}, text, false, font, black, zoom);
+		me.showTextOnPosition({x : position.x + 1, y : position.y + 1}, text, false, font, white, zoom);
 	};
 
-	me.showTextOnPosition = function(position, text, windowStyle, preferedFont, color)
+	me.showTextOnPosition = function(position, text, windowStyle, preferedFont, color, zoom)
 	{
 		var font = preferedFont;
 		var wStyle = windowStyle;
@@ -238,7 +244,7 @@ function WindowManagerClass() {
 
 		if (!font)
 			font = me.getDefaultFont();
-		if (!wStyle)
+		if (!wStyle && wStyle !== false)
 			wStyle = me.getDefaultWindowStyle();
 		if (!color)
 			fontColor = CreateColor(255, 255, 255);
@@ -250,14 +256,20 @@ function WindowManagerClass() {
 		{
 			width = font.getStringWidth(text);
 		}
-		if (width > maxWidth)
-			width = maxWidth;
 
 		var height = position.height;
 		if (!height)
 		{
 			height = font.getStringHeight(text, width);
 		}
+
+		if (zoom !== undefined)
+		{
+			height *= zoom;
+			width *= zoom;
+		}
+		if (width > maxWidth)
+			width = maxWidth;
 
 		// If the "bottom" position is less than zero, don't bother showing the box
 		if (position.y < me.topMargin)
@@ -267,9 +279,18 @@ function WindowManagerClass() {
 		if (position.y < me.topMargin)
 			position.y = me.topMargin;
 
-		wStyle.drawWindow(position.x, position.y, width, height);
+		if (wStyle !== false)
+			wStyle.drawWindow(position.x, position.y, width, height);
 		font.setColorMask(fontColor);
-		font.drawTextBox(position.x, position.y, width, height, 0, text);
+
+		if (zoom !== undefined)
+		{
+			font.drawZoomedText(position.x, position.y, zoom, text);
+		}
+		else
+		{
+			font.drawTextBox(position.x, position.y, width, height, 0, text);
+		}
 
 		return true;
 	};

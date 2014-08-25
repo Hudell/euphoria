@@ -47,7 +47,7 @@ function PlayerClass() {
 		if (!me.person)
 			return;
 		
-		if (euphoria.mapManager.currentMap.twoDimensional)
+		if (euphoria.mapManager.currentMap && euphoria.mapManager.currentMap.twoDimensional)
 		{
 			//Don't use default input on two dimensional maps
 			if (IsInputAttached())
@@ -79,8 +79,14 @@ function PlayerClass() {
 			// 	scriptManager.bindKey(gameConfig.keyBinds.right[i], walkEast, null);
 			// }
 		}
-		else if (!IsInputAttached())
-			me.person.attachInput();
+		else
+		{
+			euphoria.keyboardEvents.safeUnbind(KEY_UP);
+			euphoria.keyboardEvents.safeUnbind(KEY_DOWN);
+
+			if (!IsInputAttached())
+				me.person.attachInput();
+		}
 	};
 
 	me.attachCamera = function()
