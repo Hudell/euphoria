@@ -68,16 +68,6 @@ function PlayerClass() {
 			{
 				scriptManager.bindKey(gameConfig.keyBinds.jump[i], jumpFn, null);
 			}
-
-			// for (i = 0; i < gameConfig.keyBinds.left.length; i++)
-			// {
-			// 	scriptManager.bindKey(gameConfig.keyBinds.left[i], walkWest, null);
-			// }
-
-			// for (i = 0; i < gameConfig.keyBinds.right.length; i++)
-			// {
-			// 	scriptManager.bindKey(gameConfig.keyBinds.right[i], walkEast, null);
-			// }
 		}
 		else
 		{

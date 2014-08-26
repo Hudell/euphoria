@@ -12,6 +12,7 @@ var euphoria = {
 	allowSoundEffects : true,
 	allowJumpingEffect : true,
 	debugging : false,
+	canMove : true,
 	score : 0,
 	paused : false,
 	gravity : true,

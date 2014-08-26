@@ -39,6 +39,16 @@ function ObjectClass(name) {
 		return me;
 	};
 
+	me.hideEntity = function()
+	{
+		SetPersonVisible(me.name, false);
+	};
+
+	me.showEntity = function()
+	{
+		SetPersonVisible(me.name, true);
+	};
+
 	me.destroyEntity = function()
 	{
 		me.created = false;
@@ -228,6 +238,7 @@ function ObjectClass(name) {
 	me.ignoreObstructions = function(ignore)
 	{
 		IgnoreTileObstructions(me.name, ignore);
+		IgnorePersonObstructions(me.name, ignore);
 	};
 
 	me.getPosition = function()

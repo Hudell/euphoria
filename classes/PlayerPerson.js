@@ -16,6 +16,9 @@ function PlayerPersonClass(name) {
 
 	me.isLeftKeyPressed = function()
 	{
+		if (euphoria.canMove !== true)
+			return false;
+
 		for (var i = 0; i < gameConfig.keyBinds.left.length; i++)
 		{
 			if (IsKeyPressed(gameConfig.keyBinds.left[i]))
@@ -27,6 +30,9 @@ function PlayerPersonClass(name) {
 
 	me.isRightKeyPressed = function()
 	{
+		if (euphoria.canMove !== true)
+			return false;
+		
 		for (var i = 0; i < gameConfig.keyBinds.right.length; i++)
 		{
 			if (IsKeyPressed(gameConfig.keyBinds.right[i]))

@@ -6,6 +6,7 @@ function GameStateClass() {
 	me.superClass = BaseClass;
 	me.superClass();
 	me.name = null;
+	me.hasPriority = false;
 
 	me.run = function()
 	{
@@ -31,12 +32,14 @@ function GameStateClass() {
 
 	me.doGetPriority = function()
 	{
+		me.hasPriority = true;
 		me.onGetPriority();
 		me.bindStateKeys();
 	};
 
 	me.doLosePriority = function()
 	{
+		me.hasPriority = false;
 		me.onLosePriority();
 		me.unbindStateKeys();
 	};

@@ -25,6 +25,11 @@ function MapManagerClass() {
 
 	me.endMapEngine = function()
 	{
+		if (me.currentMap)
+		{
+			me.currentMap.uninitializeMap();
+		}
+
 		me.currentMap = null;
 		if (IsMapEngineRunning())
 		{

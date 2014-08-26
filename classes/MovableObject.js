@@ -160,7 +160,7 @@ function MovableObjectClass(name) {
 			{
 				person.onTouch(me);
 			}
-		}		
+		}	
 	};
 
 	me.applyJumping = function()
