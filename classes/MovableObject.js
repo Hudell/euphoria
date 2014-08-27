@@ -8,6 +8,7 @@ function MovableObjectClass(name) {
 
 	me.moving = false;
 	me.jumping = false;
+	me.fallingFromJump = false;
 	me.ai = null;
 	me.obeyGravityLaws = true;
 
@@ -146,7 +147,13 @@ function MovableObjectClass(name) {
 
 	me.isOnGround = function()
 	{
-		return me.getDistanceToGround(1) === 0;
+		if (me.getDistanceToGround(1) === 0)
+		{
+			me.fallingFromJump = false;
+			return true;
+		}
+
+		return false;
 	};
 
 	me.checkIfPersonTouchedSomeone = function(xDistance, yDistance)
@@ -169,6 +176,8 @@ function MovableObjectClass(name) {
 			return;
 		
 		var keepJumping = true;
+
+		//If this is the player, only keep jumping if the jump key is still pressed
 		if (me == euphoria.player.person)
 		{
 			keepJumping = euphoria.keyboardEvents.isJumpButtonPressed();
@@ -195,12 +204,57 @@ function MovableObjectClass(name) {
 		else if (me.jumpingFrame < 25 && keepJumping)
 		{
 			me.jumpingFrame++;
+			me.fallingFromJump = true;
 		}
 		else
 		{
 			me.jumping = false;
 			me.jumpingFrame = 0;
 		}
+
+		//If this is the player and is currently jumping
+		if (me == euphoria.player.person && (me.jumping || me.fallingFromJump))
+		{
+			//check if it jumped over someone
+			var position = me.getMapPosition();
+			var jumpedOver = me.getFirstObstructionUnderPosition(position);
+
+			if (jumpedOver !== null)
+			{
+				jumpedOver.doOnJumpOver();
+			}
+		}
+	};
+
+	me.getFirstObstructionUnderPosition = function(position)
+	{
+		var x = position.x;
+		var y = position.y;
+
+		while (!IsPersonObstructed(me.name, x, y))
+		{
+			y++;
+
+			//Limit it to 400 pixels
+			if (y > position.y + 400)
+				return null;
+		}
+
+		var name = GetObstructingPerson(me.name, x, y);
+		if (name)
+		{
+			var person = euphoria.getDb().getObject(name);
+
+			if (person)
+				return person;
+
+			person = euphoria.globalDb.getObject(name);
+
+			if (person)
+				return person;
+		}
+
+		return null;
 	};
 
 	me.moveVertically = function(distance)

@@ -274,6 +274,16 @@ function ObjectClass(name) {
 		SetPersonY(me.name, y);
 	};
 
+	me.doOnJumpOver = function()
+	{
+		me.onJumpOver();
+	};
+
+	me.onJumpOver = function()
+	{
+
+	};
+
 	me.doOnTouch = function(person)
 	{
 		me.trackDistance();

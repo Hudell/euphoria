@@ -177,6 +177,11 @@ function MapClass(mapName) {
 		return {x : 0, y : 0};
 	};
 
+	me.getBottomPosition = function()
+	{
+		return 1000;
+	};
+
 	me.createEntities = function()
 	{
 		for (var i = 0; i < me.objectList.length; i++)
