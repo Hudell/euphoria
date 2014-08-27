@@ -4,7 +4,7 @@ function PlayerClass() {
 	var me = this;
 
 	me.person = null;
-	me.lives = 3;
+	me.lives = gameConfig.initialLives;
 
 	me.superClass = BaseClass;
 	me.superClass();

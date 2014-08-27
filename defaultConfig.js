@@ -30,5 +30,7 @@ var gameConfig = {
 		right : [
 			KEY_RIGHT
 		]
-	}
+	},
+
+	initialLives : 3
 };
