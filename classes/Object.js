@@ -14,6 +14,7 @@ function ObjectClass(name) {
 
 	me.lastDirection = 0;
 	me.lastAbsoluteDirection = 0;
+	me.breakable = false;
 
 	me.createEntity = function(destroyWithMap)
 	{
@@ -62,6 +63,13 @@ function ObjectClass(name) {
 		SetPersonScript(me.name, SCRIPT_ON_DESTROY, methodCall + ".onDestroy();");
 		// SetPersonScript(me.name, SCRIPT_ON_ACTIVATE_TOUCH, methodCall + ".doOnTouch();");
 		SetPersonScript(me.name, SCRIPT_ON_ACTIVATE_TALK, methodCall + ".onTalk();");
+	};
+
+	me.checkIfEntityExists = function()
+	{
+		var personList = GetPersonList();
+		var idx = personList.indexOf(me.name);
+		return idx >= 0;
 	};
 
 	me.updateIgnoreList = function()
@@ -280,6 +288,20 @@ function ObjectClass(name) {
 	};
 
 	me.onJumpOver = function()
+	{
+
+	};
+
+	me.doBreak = function()
+	{
+		if (!me.breakable)
+			return;
+
+		if (me.onBreak() !== false)
+			me.destroyEntity();
+	};
+
+	me.onBreak = function()
 	{
 
 	};

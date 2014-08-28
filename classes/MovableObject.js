@@ -11,6 +11,7 @@ function MovableObjectClass(name) {
 	me.fallingFromJump = false;
 	me.ai = null;
 	me.obeyGravityLaws = true;
+	me.gravityStrength = 7;
 
 	me.jumpingFrame = 0;
 	me.makeSounds = false;
@@ -136,8 +137,42 @@ function MovableObjectClass(name) {
 
 		for (var i = -1; i >= maxDistance; i--)
 		{
+			if (position.y + i <= 0)
+				return i;
+
 			if (IsPersonObstructed(me.name, position.x, position.y + i))
 			{
+				//If the map allows objects to jump from under an object to over it
+				if (euphoria.mapManager.currentMap.allowLayerSwap)
+				{
+					//Then do not consider chosen tile obstructions
+					var tileIndex = GetObstructingTile(me.name, position.x, position.y + i);
+					if (tileIndex >= 0)
+					{
+						//If there is no list, everything is on the list
+						if (euphoria.mapManager.currentMap.layerSwappableTileIndexes.length === 0)
+							continue;
+
+						//If there is a list and this tile is on it, then do not obstruct the object
+						if (euphoria.mapManager.currentMap.layerSwappableTileIndexes.indexOf(tileIndex) >= 0)
+							continue;
+					}
+				}
+
+				var entitieName = GetObstructingPerson(me.name, position.x, position.y + i);
+				if (entitieName)
+				{
+					//if entitie is breakable, do it!
+					var entitie = euphoria.getDb().getObject(entitieName);
+					if (entitie)
+					{
+						entitie.doBreak();
+
+						if (entitie.ignoreObstructions)
+							continue;
+					}
+				}
+
 				return i +1;
 			}
 		}
@@ -183,7 +218,7 @@ function MovableObjectClass(name) {
 			keepJumping = euphoria.keyboardEvents.isJumpButtonPressed();
 		}
 
-		if (me.jumpingFrame < 20 && keepJumping)
+		if (me.jumpingFrame < 30 && keepJumping)
 		{
 			var distance = me.getDistanceToCeiling(-5);
 			// if (distance > -5)
@@ -198,10 +233,10 @@ function MovableObjectClass(name) {
 			}
 			else
 			{
-				me.jumpingFrame = 20;
+				me.jumpingFrame = 30;
 			}
 		}
-		else if (me.jumpingFrame < 25 && keepJumping)
+		else if (me.jumpingFrame < 35 && keepJumping)
 		{
 			me.jumpingFrame++;
 			me.fallingFromJump = true;
@@ -275,9 +310,9 @@ function MovableObjectClass(name) {
 		if (!euphoria.gravity)
 			return;
 
-		var distance = me.getDistanceToGround(7);
+		var distance = me.getDistanceToGround(me.gravityStrength);
 
-		// if (distance < 7)
+		// if (distance < me.gravityStrength)
 		// {
 		// 	me.checkIfPersonTouchedSomeone(0, distance +1);
 		// }
@@ -301,8 +336,27 @@ function MovableObjectClass(name) {
 			}
 			else
 			{
-				me.applyGravity();
+				if (me.obeyGravityLaws)
+				{
+					me.applyGravity();
+
+					var position = me.getMapPosition();
+					var originalY = position.y;
+
+					//If the person is obstructed on it's current position, move it a little down so it doesn't get stuck
+					while (IsPersonObstructed(me.name, position.x, position.y))
+					{
+						position.y++;
+						//Make sure it doesn't fall faster than gravity
+						if (position.y - originalY > me.gravityStrength)
+							break;
+					}
+
+					if (position.y !== originalY)
+						me.setPosition(position.x, position.y);
+				}
 			}
+
 		}
 	};	
 

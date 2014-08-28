@@ -7,6 +7,9 @@ function MapClass(mapName) {
 	me.initialized = false;
 	me.objectList = [];
 	me.twoDimensional = false;
+	me.allowLayerSwap = false;
+	me.layerSwappableTileIndexes = [];
+	
 	me.db = new MapDbClass();
 
 	me.superClass = BaseClass;
@@ -153,7 +156,7 @@ function MapClass(mapName) {
 
 	me.createSimpleObject = function(name, spriteName)
 	{
-		var object = euphoria.db.createSimpleObject(name, spriteName);
+		var object = me.db.createSimpleObject(name, spriteName);
 		me.registerObject(name, object);
 		return object;
 	};
