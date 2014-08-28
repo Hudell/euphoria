@@ -55,8 +55,37 @@ function MovableObjectClass(name) {
 
 		for (var i = 0; i < numSteps; i++)
 		{
-			// if (command == COMMAND_MOVE_EAST || command == COMMAND_MOVE_WEST)
-			// {
+			if (command == COMMAND_MOVE_EAST || command == COMMAND_MOVE_WEST)
+			{
+				if (euphoria.mapManager.currentMap.allowObstructionByPass)
+				{
+					var tileIndex;
+
+					if (command == COMMAND_MOVE_EAST)
+					{
+						if (IsPersonObstructed(me.name, position.x + 1, position.y))
+						{
+							tileIndex = GetObstructingTile(me.name, position.x +1, position.y);
+							if (tileIndex >= 0 && euphoria.mapManager.currentMap.rightByPassableTilesIndexes.indexOf(tileIndex) >= 0)
+							{
+								me.setPosition(position.x + 2, position.y);
+							}
+						}
+					}
+					else
+					{
+						if (IsPersonObstructed(me.name, position.x - 1, position.y))
+						{
+							tileIndex = GetObstructingTile(me.name, position.x +1, position.y);
+							if (tileIndex >= 0 && euphoria.mapManager.currentMap.leftByPassableTilesIndexes.indexOf(tileIndex) >= 0)
+							{
+								me.setPosition(position.x - 2, position.y);
+							}
+						}						
+					}
+
+				}
+				
 			// 	var xDif = command == COMMAND_MOVE_EAST ? 5 : -5;
 
 			// 	//If the person is obstructed by only 1 vertical pixel, move him up or down to avoid it
@@ -78,7 +107,7 @@ function MovableObjectClass(name) {
 			// 			continue;
 			// 		}
 			// 	}
-			// }
+			}
 
 			QueuePersonCommand(me.name, command, true);
 		}
@@ -143,18 +172,18 @@ function MovableObjectClass(name) {
 			if (IsPersonObstructed(me.name, position.x, position.y + i))
 			{
 				//If the map allows objects to jump from under an object to over it
-				if (euphoria.mapManager.currentMap.allowLayerSwap)
+				if (euphoria.mapManager.currentMap.allowObstructionByPass)
 				{
 					//Then do not consider chosen tile obstructions
 					var tileIndex = GetObstructingTile(me.name, position.x, position.y + i);
 					if (tileIndex >= 0)
 					{
 						//If there is no list, everything is on the list
-						if (euphoria.mapManager.currentMap.layerSwappableTileIndexes.length === 0)
+						if (euphoria.mapManager.currentMap.upByPassableTilesIndexes.length === 0)
 							continue;
 
 						//If there is a list and this tile is on it, then do not obstruct the object
-						if (euphoria.mapManager.currentMap.layerSwappableTileIndexes.indexOf(tileIndex) >= 0)
+						if (euphoria.mapManager.currentMap.upByPassableTilesIndexes.indexOf(tileIndex) >= 0)
 							continue;
 					}
 				}

@@ -7,8 +7,10 @@ function MapClass(mapName) {
 	me.initialized = false;
 	me.objectList = [];
 	me.twoDimensional = false;
-	me.allowLayerSwap = false;
-	me.layerSwappableTileIndexes = [];
+	me.allowObstructionByPass = false;
+	me.upByPassableTilesIndexes = [];
+	me.leftByPassableTilesIndexes = [];
+	me.rightByPassableTilesIndexes = [];
 	
 	me.db = new MapDbClass();
 
