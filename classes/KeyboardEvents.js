@@ -31,19 +31,19 @@ function KeyboardEventsClass() {
 				}
 			}
 
-			if (!IsKeyPressed(KEY_LEFT) && !IsKeyPressed(KEY_RIGHT))
-			{
-				var twoD = euphoria.mapManager.currentMap && euphoria.mapManager.currentMap.twoDimensional;
-				if (twoD || (!IsKeyPressed(KEY_UP) && !IsKeyPressed(KEY_DOWN)))
-				{
-					euphoria.player.fixPlayerFrame();
-				}
-			}
+			// if (!IsKeyPressed(KEY_LEFT) && !IsKeyPressed(KEY_RIGHT))
+			// {
+			// 	var twoD = euphoria.mapManager.currentMap && euphoria.mapManager.currentMap.twoDimensional;
+			// 	if (twoD || (!IsKeyPressed(KEY_UP) && !IsKeyPressed(KEY_DOWN)))
+			// 	{
+			// 		euphoria.player.fixPlayerFrame();
+			// 	}
+			// }
 		}
-		else
-		{
-			euphoria.player.fixPlayerFrame();
-		}
+		// else
+		// {
+		// 	euphoria.player.fixPlayerFrame();
+		// }
 	};
 
 	me.lockPlayerMovement = function()
@@ -51,11 +51,11 @@ function KeyboardEventsClass() {
 		BindKey(KEY_LEFT, null, null);
 		BindKey(KEY_RIGHT, null, null);
 
-		if (!euphoria.mapManager.currentMap.twoDimensional)
-		{
+		// if (!euphoria.mapManager.currentMap.twoDimensional)
+		// {
 			BindKey(KEY_UP, null, null);
 			BindKey(KEY_DOWN, null, null);
-		}
+		// }
 	};
 
 	me.safeUnbind = function(key)

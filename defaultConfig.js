@@ -18,6 +18,9 @@ var gameConfig = {
 			KEY_UP,
 			KEY_CTRL
 		],
+		dropDown : [
+			KEY_DOWN
+		],
 		up : [
 			KEY_UP
 		],

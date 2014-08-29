@@ -60,30 +60,30 @@ function MovableObjectClass(name) {
 				if (euphoria.mapManager.currentMap.allowObstructionByPass)
 				{
 					var tileIndex;
+					var y = position.y;
 
 					if (command == COMMAND_MOVE_EAST)
 					{
-						if (IsPersonObstructed(me.name, position.x + 1, position.y))
+						if (IsPersonObstructed(me.name, position.x + 1, y))
 						{
-							tileIndex = GetObstructingTile(me.name, position.x +1, position.y);
+							tileIndex = GetObstructingTile(me.name, position.x +1, y);
 							if (tileIndex >= 0 && euphoria.mapManager.currentMap.rightByPassableTilesIndexes.indexOf(tileIndex) >= 0)
 							{
-								me.setPosition(position.x + 2, position.y);
+								me.setXPosition(position.x + 2);
 							}
 						}
 					}
 					else
 					{
-						if (IsPersonObstructed(me.name, position.x - 1, position.y))
+						if (IsPersonObstructed(me.name, position.x - 1, y))
 						{
-							tileIndex = GetObstructingTile(me.name, position.x +1, position.y);
+							tileIndex = GetObstructingTile(me.name, position.x +1, y);
 							if (tileIndex >= 0 && euphoria.mapManager.currentMap.leftByPassableTilesIndexes.indexOf(tileIndex) >= 0)
 							{
-								me.setPosition(position.x - 2, position.y);
+								me.setXPosition(position.x - 2);
 							}
-						}						
+						}
 					}
-
 				}
 				
 			// 	var xDif = command == COMMAND_MOVE_EAST ? 5 : -5;
@@ -133,6 +133,39 @@ function MovableObjectClass(name) {
 		me.jumpingFrame = 0;
 	};
 
+	me.dropDown = function()
+	{
+		//If it can't jump, it can't drop either
+		if (!me.canJump())
+			return;
+
+		//Check if the tile under it is bypassable
+		var position = me.getMapPosition();
+		var distance = 10;
+
+		if (IsPersonObstructed(me.name, position.x, position.y + distance))
+		{
+			//If the map allows bypass
+			if (euphoria.mapManager.currentMap.allowObstructionByPass)
+			{
+				//Check the index of the obstructing tile
+				var tileIndex = GetObstructingTile(me.name, position.x, position.y + distance);
+				if (tileIndex >= 0)
+				{
+					//If there is no list, then do not drop
+					if (euphoria.mapManager.currentMap.downByPassableTilesIndexes.length === 0)
+						return;
+
+					//If there is a list and this tile is on it, then drop the object
+					if (euphoria.mapManager.currentMap.downByPassableTilesIndexes.indexOf(tileIndex) >= 0)
+					{
+						me.moveVertically(distance);
+					}
+				}
+			}
+		}
+	};
+
 	me.setAi = function(aiClassName)
 	{
 		var aiClass = euphoria.globalDb.getAIClass(aiClassName);
@@ -142,7 +175,31 @@ function MovableObjectClass(name) {
 	me.canJump = function()
 	{
 		//It can only jump if it's standing in some ground
-		return euphoria.mapManager.currentMap.twoDimensional && !me.jumping && me.isOnGround();
+		return (euphoria.mapManager.currentMap.twoDimensional && !me.jumping && me.isOnGround());
+	};
+
+	me.canClimb = function()
+	{
+		if (euphoria.mapManager.currentMap.twoDimensional && euphoria.mapManager.currentMap.allowStairs && !me.jumping)
+		{
+			if (euphoria.mapManager.currentMap.stairsTiles.length === 0)
+				return false;
+
+			//Test if the current tile is a stair
+			var layer = GetPersonLayer(me.name);
+			var position = me.getTilePosition();
+			var layerX = GetLayerWidth(layer);
+			var layerY = GetLayerHeight(layer);
+			
+			if (position.x < layerX && position.x >= 0 && position.y < layerY && position.y >= 0)
+			{
+				var tileIndex = GetTile(position.x, position.y, layer);
+
+				return euphoria.mapManager.currentMap.stairsTiles.indexOf(tileIndex) >= 0;
+			}
+		}
+
+		return false;
 	};
 
 	me.getDistanceToGround = function(maxDistance)
@@ -339,6 +396,10 @@ function MovableObjectClass(name) {
 		if (!euphoria.gravity)
 			return;
 
+		//If the entity is in a climbable tile, do not apply gravity to him
+		if (me.canClimb())
+			return;
+
 		var distance = me.getDistanceToGround(me.gravityStrength);
 
 		// if (distance < me.gravityStrength)
@@ -422,6 +483,18 @@ function MovableObjectClass(name) {
 	{
 		me.faceEast();
 		me.stepForward(numSteps);
+	};
+
+	me.walkNorth = function(frames)
+	{
+		me.faceNorth();
+		me.stepNorth(frames);
+	};
+
+	me.walkSouth = function(frames)
+	{
+		me.faceSouth();
+		me.stepSouth(frames);
 	};
 
 	me.walkEast = function(frames)

@@ -42,6 +42,34 @@ function PlayerPersonClass(name) {
 		return false;
 	};
 
+	me.isUpKeyPressed = function()
+	{
+		if (euphoria.canMove !== true)
+			return false;
+
+		for (var i = 0; i < gameConfig.keyBinds.up.length; i++)
+		{
+			if (IsKeyPressed(gameConfig.keyBinds.up[i]))
+				return true;
+		}
+		
+		return false;
+	};
+
+	me.isDownKeyPressed = function()
+	{
+		if (euphoria.canMove !== true)
+			return false;
+
+		for (var i = 0; i < gameConfig.keyBinds.down.length; i++)
+		{
+			if (IsKeyPressed(gameConfig.keyBinds.down[i]))
+				return true;
+		}
+
+		return false;
+	};
+
 	me.onFrame = function()
 	{
 		if (!euphoria.mapManager.currentMap || !euphoria.mapManager.currentMap.twoDimensional)
@@ -60,6 +88,16 @@ function PlayerPersonClass(name) {
 		{
 			me.walkEast();
 			checkTrigger = true;
+		}
+		else if (me.isUpKeyPressed())
+		{
+			if (me.canClimb())
+				me.walkNorth();
+		}
+		else if (me.isDownKeyPressed())
+		{
+			if (me.canClimb())
+				me.walkSouth();
 		}
 
 		if (checkTrigger)

@@ -26,7 +26,7 @@ function ObjectClass(name) {
 			CreatePerson(me.name, me.spriteName, destroyWithMap);
 		}
 
-		SetPersonFrameRevert(me.name, 8);
+		SetPersonFrameRevert(me.name, 1);
 		if (me.ignoreObstructions === true)
 		{
 			IgnoreTileObstructions(me.name, true);
@@ -225,7 +225,7 @@ function ObjectClass(name) {
 
 	me.setPosition = function(x, y)
 	{
-		//If we received an object isntead of the coordinates, get the coordinates from it
+		//If we received an object instead of the coordinates, get the coordinates from it
 		if (x.x !== undefined && x.y !== undefined)
 		{
 			SetPersonXYFloat(me.name, x.x, x.y);
@@ -241,6 +241,13 @@ function ObjectClass(name) {
 		var y = GetPersonYFloat(me.name);
 
 		return { x : x, y : y};
+	};
+
+	me.getTilePosition = function()
+	{
+		var position = me.getMapPosition();
+
+		return { x : Math.floor(position.x / 32), y : Math.floor(position.y / 32)};
 	};
 
 	me.ignoreObstructions = function(ignore)

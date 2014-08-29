@@ -11,6 +11,9 @@ function MapClass(mapName) {
 	me.upByPassableTilesIndexes = [];
 	me.leftByPassableTilesIndexes = [];
 	me.rightByPassableTilesIndexes = [];
+	me.downByPassableTilesIndexes = [];
+	me.allowStairs = false;
+	me.stairsTiles = [];
 	
 	me.db = new MapDbClass();
 

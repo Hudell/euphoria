@@ -54,19 +54,32 @@ function PlayerClass() {
 				DetachInput();
 
 			var jumpFn = function(){
-				me.person.jump();
+				// if (me.person.canClimb())
+				// 	me.person.walkNorth();
+				// else
+					me.person.jump();
 			};
-			var walkWest = function(){
-				me.person.walkWest();
+			var dropDown = function(){
+				// if (me.person.canClimb())
+				// 	me.person.walkSouth();
+				// else
+					me.person.dropDown();
 			};
-			var walkEast = function(){
-				me.person.walkEast();
-			};
+			// var walkWest = function(){
+			// 	me.person.walkWest();
+			// };
+			// var walkEast = function(){
+			// 	me.person.walkEast();
+			// };
 
 			var i = 0;
 			for (i = 0; i < gameConfig.keyBinds.jump.length; i++)
 			{
 				scriptManager.bindKey(gameConfig.keyBinds.jump[i], jumpFn, null);
+			}
+			for (i = 0; i < gameConfig.keyBinds.dropDown.length; i++)
+			{
+				scriptManager.bindKey(gameConfig.keyBinds.dropDown[i], dropDown, null);
 			}
 		}
 		else
