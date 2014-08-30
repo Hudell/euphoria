@@ -122,6 +122,79 @@ function ObjectClass(name) {
 	{
 
 	};
+
+	me.getNextPosition = function(direction, distance)
+	{
+		var position = me.getMapPosition();
+
+		switch(direction)
+		{
+			case 0 :
+				position.y -= distance;
+				break;
+			case 1 :
+				position.x -= distance;
+				break;
+			case 2 :
+				position.y += distance;
+				break;
+			case 3 :
+				position.x += distance;
+				break;
+			default :
+				break;
+		}
+
+		return position;
+	};
+
+	me.getLeftPosition = function(distance)
+	{
+		var direction = me.getLeftDirection();
+
+		return me.getNextPosition(direction, distance);
+	};
+
+	me.getRightPosition = function(distance)
+	{
+		var direction = me.getRightDirection();
+		return me.getNextPosition(direction, distance);
+	};
+
+	me.getBackPosition  = function(distance)
+	{
+		var direction = me.getReverseDirection();
+		return me.getNextPosition(direction, distance);
+	};
+
+	me.getFrontPosition = function(distance)
+	{
+		return me.getNextPosition(me.lastAbsoluteDirection, distance);
+	};
+
+	me.isLeftSideObstructed = function(distance)
+	{
+		var position = me.getLeftPosition(distance);
+		return IsPersonObstructed(me.name, position.x, position.y);
+	};
+
+	me.isRightSideObstructed = function(distance)
+	{
+		var position = me.getRightPosition(distance);
+		return IsPersonObstructed(me.name, position.x, position.y);
+	};
+
+	me.isFrontSideObstructed = function(distance)
+	{
+		var position = me.getFrontPosition(distance);
+		return IsPersonObstructed(me.name, position.x, position.y);
+	};
+
+	me.isBackSideObstructed = function(distance)
+	{
+		var position = me.getBackPosition(distance);
+		return IsPersonObstructed(me.name, position.x, position.y);
+	};
 	
 	me.getLeftDirection = function()
 	{
@@ -142,8 +215,8 @@ function ObjectClass(name) {
 	me.faceTo = function(direction)
 	{
 		var command = null;
-
 		me.lastDirection = direction;
+
 		if (direction == -1)
 		{
 			direction = me.getRandomDirection();
@@ -166,6 +239,7 @@ function ObjectClass(name) {
 				break;
 			default :
 				command = COMMAND_FACE_NORTH;
+				me.lastAbsoluteDirection = 0;
 				break;
 		}
 
@@ -179,6 +253,9 @@ function ObjectClass(name) {
 
 	me.fixFace = function()
 	{
+		if (me.lastAbsoluteDirection === undefined)
+			return;
+
 		me.faceTo(me.lastAbsoluteDirection);
 	};
 
@@ -204,18 +281,28 @@ function ObjectClass(name) {
 
 	me.faceBackward = function()
 	{
-		me.faceTo(me.getReverseDirection());
+		var reverseDirection = me.getReverseDirection();
+
+		if (reverseDirection === undefined)
+			return;
+
+		me.faceTo(reverseDirection);
 	};
 
 	me.faceLeft = function()
 	{
-		if (me.created)
-			me.faceTo(me.getLeftDirection());
+		var direction = me.getLeftDirection();
+		if (direction === undefined)
+			return;
+		me.faceTo(direction);
 	};
 
 	me.faceRight = function()
 	{
-		me.faceTo(me.getRightDirection());
+		var direction = me.getRightDirection();
+		if (direction === undefined)
+			return;
+		me.faceTo(direction);
 	};
 
 	me.faceRandom = function()
@@ -341,7 +428,7 @@ function ObjectClass(name) {
 
 	me.onCreate = function()
 	{
-
+		me.lastAbsoluteDirection = 0;
 	};
 
 	me.onDestroy = function()

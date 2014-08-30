@@ -415,13 +415,51 @@ function MovableObjectClass(name) {
 
 	me.doFrame = function()
 	{
+		if (euphoria.paused)
+			return;
+
 		if (me.ai !== null)
 		{
 			me.ai.doFrame(me);
 		}
+
 		me.onFrame();
 
-		if (euphoria.mapManager.currentMap.twoDimensional)
+		var position = me.getMapPosition();
+
+		//If it is a board map, keep the object at movement all the time
+		if (euphoria.mapManager.currentMap.boardMap)
+		{
+			me.stepForward();
+
+			if (me !== euphoria.player.person)
+			{
+				var distance = 30;
+
+				if (me.isFrontSideObstructed(distance))
+				{
+					var canTurnLeft = !me.isLeftSideObstructed(distance);
+					var canTurnRight = !me.isRightSideObstructed(distance);
+
+					if (canTurnLeft && canTurnRight)
+					{
+						if (Math.floor(Math.random() * 2) == 1)
+						{
+							me.faceLeft();
+						}
+						else
+						{
+							me.faceRight();
+						}
+					}
+					else if (canTurnLeft)
+						me.faceLeft();
+					else
+						me.faceRight();
+				}
+			}
+		}
+		else if (euphoria.mapManager.currentMap.twoDimensional)
 		{
 			if (me.jumping)
 			{
@@ -433,7 +471,6 @@ function MovableObjectClass(name) {
 				{
 					me.applyGravity();
 
-					var position = me.getMapPosition();
 					var originalY = position.y;
 
 					//If the person is obstructed on it's current position, move it a little down so it doesn't get stuck

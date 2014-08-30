@@ -13,6 +13,8 @@ function PersonClass(name)
 	me.myFontColor = null;
 	me.speedDifference = 0;
 	me.speakTimeout = 120;
+	me.isSpeaking = false;
+	me.speakId = null;
 
 	me.randomConversationsAllowed = [];
 	me.conversationList = [];
@@ -20,7 +22,7 @@ function PersonClass(name)
 	me.superClass = MovableObjectClass;
 	me.superClass(name);
 
-	this.createPerson = function(destroyWithMap)
+	me.createPerson = function(destroyWithMap)
 	{
 		if (!me.created)
 		{
@@ -38,7 +40,7 @@ function PersonClass(name)
 		return me;
 	};
 
-	this.fixFrame = function()
+	me.fixFrame = function()
 	{
 		var frame = GetPersonFrame(me.name);
 		if (frame !== 0)
@@ -47,17 +49,17 @@ function PersonClass(name)
 		}
 	};	
 
-	this.attachInput = function()
+	me.attachInput = function()
 	{
 		AttachInput(me.name);
 	};
 
-	this.attachCamera = function()
+	me.attachCamera = function()
 	{
 		AttachCamera(me.name);
 	};
 
-	this.showMessage = function(message)
+	me.showMessage = function(message)
 	{
 		me.startConversation([
 			{	
@@ -66,7 +68,7 @@ function PersonClass(name)
 		], false);
 	};
 
-	this.registerConversation = function(conversation, allowRandom)
+	me.registerConversation = function(conversation, allowRandom)
 	{
 		me.conversationList.push(conversation);
 		if (allowRandom)
@@ -75,7 +77,7 @@ function PersonClass(name)
 		}
 	};
 
-	this.startRandomConversation = function()
+	me.startRandomConversation = function()
 	{
 		if (me.randomConversationsAllowed.length === 0)
 			return;
@@ -87,7 +89,7 @@ function PersonClass(name)
 		me.startConversation(conversation.messages, conversation.lockMovement);
 	};
 
-	this.startConversation = function(messageList, lockMovement)
+	me.startConversation = function(messageList, lockMovement)
 	{
 		if (me.speaking)
 			return false;
@@ -106,12 +108,12 @@ function PersonClass(name)
 		return true;
 	};
 
-	this.closeOpenMessage = function()
+	me.closeOpenMessage = function()
 	{
 		euphoria.windowManager.closeBoxByOwner(me);
 	};
 
-	this.continueConversation = function()
+	me.continueConversation = function()
 	{
 		me.currentConversationIndex++;
 
@@ -148,8 +150,25 @@ function PersonClass(name)
 		}
 	};
 
-	this.speak = function(message, onCloseMessage, owner, timeout)
+	me.speak = function(message, onCloseMessage, owner, timeout)
 	{
-		euphoria.windowManager.addTextOnObject(me, message, onCloseMessage, owner, timeout || owner.speakTimeout);
+		var theOwner = owner || me;
+		if (me.isSpeaking)
+		{
+			euphoria.windowManager.closeBoxById(me.speakId);
+			me.speakId = null;
+			me.isSpeaking = false;
+		}
+
+		var onCloseFn = function() {
+			if (onCloseMessage)
+				onCloseMessage();
+
+			me.isSpeaking = false;
+			me.speakId = null;
+		};
+
+		me.speakId = euphoria.windowManager.addTextOnObject(me, message, onCloseFn, theOwner, timeout || theOwner.speakTimeout);
+		me.isSpeaking = true;
 	};
 }

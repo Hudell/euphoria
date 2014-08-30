@@ -13,6 +13,8 @@ function WindowManagerClass() {
 
 	me.addTextOnObject = function(object, text, onCloseMessage, owner, timeout)
 	{
+		var id = Math.random();
+
 		me.textBoxes.push({
 			type : 'object',
 			object : object,
@@ -24,8 +26,10 @@ function WindowManagerClass() {
 			font : object.myFont,
 			fontColor : object.myFontColor,
 			timeout : timeout,
-			id : Math.random()
+			id : id
 		});
+
+		return id;
 	};
 
 	me.addInfoText = function(text, timeout)

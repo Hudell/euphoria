@@ -10,7 +10,7 @@ function AIClass(object) {
 
 	me.doFrame = function()
 	{
-		if (mainGame.paused)
+		if (euphoria.paused)
 			return;
 
 		if (me.firstStep !== true)

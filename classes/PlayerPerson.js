@@ -173,7 +173,7 @@ function PlayerPersonClass(name) {
 				}
 			}
 
-			me.stepForward();
+			// me.stepForward();
 		}
 	};	
 }
