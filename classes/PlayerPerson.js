@@ -161,6 +161,16 @@ function PlayerPersonClass(name) {
 					me.faceTo(me.nextDirection);
 					me.nextDirection = null;
 				}
+
+				var objName = GetObstructingPerson(me.name, position.x, position.y);
+				if (objName)
+				{
+					var obj = euphoria.getDb().getObject(objName);
+					if (obj)
+					{
+						obj.doOnTouch();
+					}
+				}
 			}
 
 			me.stepForward();
