@@ -47,39 +47,31 @@ function PlayerClass() {
 		if (!me.person)
 			return;
 		
-		if (euphoria.mapManager.currentMap && euphoria.mapManager.currentMap.twoDimensional)
+		if (euphoria.mapManager.currentMap && (euphoria.mapManager.currentMap.twoDimensional || euphoria.mapManager.currentMap.boardMap))
 		{
-			//Don't use default input on two dimensional maps
+			//Don't use default input on two dimensional or board maps
 			if (IsInputAttached())
 				DetachInput();
 
-			var jumpFn = function(){
-				// if (me.person.canClimb())
-				// 	me.person.walkNorth();
-				// else
+			if (euphoria.mapManager.currentMap.twoDimensional === true)
+			{
+				//Add jump and dropdown capabilities to twoDimensional maps
+				var jumpFn = function(){
 					me.person.jump();
-			};
-			var dropDown = function(){
-				// if (me.person.canClimb())
-				// 	me.person.walkSouth();
-				// else
+				};
+				var dropDown = function(){
 					me.person.dropDown();
-			};
-			// var walkWest = function(){
-			// 	me.person.walkWest();
-			// };
-			// var walkEast = function(){
-			// 	me.person.walkEast();
-			// };
+				};
 
-			var i = 0;
-			for (i = 0; i < gameConfig.keyBinds.jump.length; i++)
-			{
-				scriptManager.bindKey(gameConfig.keyBinds.jump[i], jumpFn, null);
-			}
-			for (i = 0; i < gameConfig.keyBinds.dropDown.length; i++)
-			{
-				scriptManager.bindKey(gameConfig.keyBinds.dropDown[i], dropDown, null);
+				var i = 0;
+				for (i = 0; i < gameConfig.keyBinds.jump.length; i++)
+				{
+					scriptManager.bindKey(gameConfig.keyBinds.jump[i], jumpFn, null);
+				}
+				for (i = 0; i < gameConfig.keyBinds.dropDown.length; i++)
+				{
+					scriptManager.bindKey(gameConfig.keyBinds.dropDown[i], dropDown, null);
+				}
 			}
 		}
 		else

@@ -7,6 +7,7 @@ function PlayerPersonClass(name) {
 	me.superClass(name);
 	me.myFontColor = CreateColor(0, 0, 0);
 	me.makeSounds = true;
+	me.nextDirection = null;
 
 	//The player must not be destroyed
 	me.onDestroy = function()
@@ -72,43 +73,97 @@ function PlayerPersonClass(name) {
 
 	me.onFrame = function()
 	{
-		if (!euphoria.mapManager.currentMap || !euphoria.mapManager.currentMap.twoDimensional)
+		if (euphoria.paused)
+			return;
+
+		if (!euphoria.mapManager.currentMap)
 		{
 			return;
 		}
 
-		var checkTrigger = false;
+		var position = me.getMapPosition();
+		if (euphoria.mapManager.currentMap.twoDimensional)
+		{
+			var checkTrigger = false;
 
-		if (me.isLeftKeyPressed())
-		{
-			me.walkWest();
-			checkTrigger = true;
-		}
-		else if (me.isRightKeyPressed())
-		{
-			me.walkEast();
-			checkTrigger = true;
-		}
-		else if (me.isUpKeyPressed())
-		{
-			if (me.canClimb())
-				me.walkNorth();
-		}
-		else if (me.isDownKeyPressed())
-		{
-			if (me.canClimb())
-				me.walkSouth();
-		}
-
-		if (checkTrigger)
-		{
-			var position = me.getMapPosition();
-			var layer = GetPersonLayer(me.name);
-
-			if (IsTriggerAt(position.x, position.y, layer))
+			if (me.isLeftKeyPressed())
 			{
-				ExecuteTrigger(position.x, position.y, layer);
+				me.walkWest();
+				checkTrigger = true;
 			}
+			else if (me.isRightKeyPressed())
+			{
+				me.walkEast();
+				checkTrigger = true;
+			}
+			else if (me.isUpKeyPressed())
+			{
+				if (me.canClimb())
+					me.walkNorth();
+			}
+			else if (me.isDownKeyPressed())
+			{
+				if (me.canClimb())
+					me.walkSouth();
+			}
+
+			if (checkTrigger)
+			{
+				var layer = GetPersonLayer(me.name);
+
+				if (IsTriggerAt(position.x, position.y, layer))
+				{
+					ExecuteTrigger(position.x, position.y, layer);
+				}
+			}
+		}
+		else if (euphoria.mapManager.currentMap.boardMap)
+		{
+			if (me.isLeftKeyPressed())
+			{
+				me.nextDirection = 1;
+			}
+			else if (me.isRightKeyPressed())
+			{
+				me.nextDirection = 3;
+			}
+			else if (me.isUpKeyPressed())
+			{
+				me.nextDirection = 0;
+			}
+			else if (me.isDownKeyPressed())
+			{
+				me.nextDirection = 2;
+			}
+
+			if (me.nextDirection !== null)
+			{
+				switch(me.nextDirection)
+				{
+					case 0 :
+						position.y -= 10;
+						break;
+					case 1 :
+						position.x -= 10;
+						break;
+					case 2 :
+						position.y += 10;
+						break;
+					case 3 :
+						position.x += 10;
+						break;
+					default :
+						break;
+				}
+
+				if (!IsPersonObstructed(me.name, position.x, position.y))
+				{
+					me.faceTo(me.nextDirection);
+					me.nextDirection = null;
+				}
+			}
+
+			me.stepForward();
 		}
 	};	
 }

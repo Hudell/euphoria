@@ -46,12 +46,6 @@ function MapManagerClass() {
 			me.currentMap.unregisterEvents();
 			me.currentMap.uninitializeMap();
 			euphoria.player.unloadPerson();
-
-			// if (me.currentMap.twoDimensional)
-			// {
-				// euphoria.keyboardEvents.safeUnbind(KEY_UP);
-				// euphoria.keyboardEvents.safeUnbind(KEY_DOWN);
-			// }
 		}
 		
 		me.currentMap = map;

@@ -7,6 +7,7 @@ function MapClass(mapName) {
 	me.initialized = false;
 	me.objectList = [];
 	me.twoDimensional = false;
+	me.boardMap = false;
 	me.allowObstructionByPass = false;
 	me.upByPassableTilesIndexes = [];
 	me.leftByPassableTilesIndexes = [];
