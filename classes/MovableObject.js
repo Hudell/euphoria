@@ -55,58 +55,61 @@ function MovableObjectClass(name) {
 
 		for (var i = 0; i < numSteps; i++)
 		{
-			if (command == COMMAND_MOVE_EAST || command == COMMAND_MOVE_WEST)
+			if (euphoria.mapManager.currentMap && euphoria.mapManager.currentMap.twoDimensional)
 			{
-				if (euphoria.mapManager.currentMap.allowObstructionByPass)
+				if (command == COMMAND_MOVE_EAST || command == COMMAND_MOVE_WEST)
 				{
-					var tileIndex;
-					var y = position.y;
+					if (euphoria.mapManager.currentMap.allowObstructionByPass)
+					{
+						var tileIndex;
+						var y = position.y;
 
-					if (command == COMMAND_MOVE_EAST)
-					{
-						if (IsPersonObstructed(me.name, position.x + 1, y))
+						if (command == COMMAND_MOVE_EAST)
 						{
-							tileIndex = GetObstructingTile(me.name, position.x +1, y);
-							if (tileIndex >= 0 && euphoria.mapManager.currentMap.rightByPassableTilesIndexes.indexOf(tileIndex) >= 0)
+							if (IsPersonObstructed(me.name, position.x + 1, y))
 							{
-								me.setXPosition(position.x + 2);
+								tileIndex = GetObstructingTile(me.name, position.x +1, y);
+								if (tileIndex >= 0 && euphoria.mapManager.currentMap.rightByPassableTilesIndexes.indexOf(tileIndex) >= 0)
+								{
+									me.setXPosition(position.x + 2);
+								}
+							}
+						}
+						else
+						{
+							if (IsPersonObstructed(me.name, position.x - 1, y))
+							{
+								tileIndex = GetObstructingTile(me.name, position.x +1, y);
+								if (tileIndex >= 0 && euphoria.mapManager.currentMap.leftByPassableTilesIndexes.indexOf(tileIndex) >= 0)
+								{
+									me.setXPosition(position.x - 2);
+								}
 							}
 						}
 					}
-					else
-					{
-						if (IsPersonObstructed(me.name, position.x - 1, y))
-						{
-							tileIndex = GetObstructingTile(me.name, position.x +1, y);
-							if (tileIndex >= 0 && euphoria.mapManager.currentMap.leftByPassableTilesIndexes.indexOf(tileIndex) >= 0)
-							{
-								me.setXPosition(position.x - 2);
-							}
-						}
-					}
+					
+					// 	var xDif = command == COMMAND_MOVE_EAST ? 5 : -5;
+
+					// 	//If the person is obstructed by only 1 vertical pixel, move him up or down to avoid it
+					// 	if (IsPersonObstructed(me.name, position.x + xDif, position.y))
+					// 	{
+					// 		var maxYDistance = 10;
+					// 		if (!IsPersonObstructed(me.name, position.x + xDif, position.y - maxYDistance))
+					// 		{
+					// 			for (var j = 0; j < maxYDistance; j++)
+					// 			{
+					// 				if (!IsPersonObstructed(me.name, position.x + xDif, position.y - j))
+					// 				{
+					// 					me.setPosition(position.x + xDif, position.y - j);
+					// 					break;
+					// 				}
+
+					// 				me.setPosition(position.x + xDif, position.y - maxYDistance);
+					// 			}
+					// 			continue;
+					// 		}
+					// 	}
 				}
-				
-			// 	var xDif = command == COMMAND_MOVE_EAST ? 5 : -5;
-
-			// 	//If the person is obstructed by only 1 vertical pixel, move him up or down to avoid it
-			// 	if (IsPersonObstructed(me.name, position.x + xDif, position.y))
-			// 	{
-			// 		var maxYDistance = 10;
-			// 		if (!IsPersonObstructed(me.name, position.x + xDif, position.y - maxYDistance))
-			// 		{
-			// 			for (var j = 0; j < maxYDistance; j++)
-			// 			{
-			// 				if (!IsPersonObstructed(me.name, position.x + xDif, position.y - j))
-			// 				{
-			// 					me.setPosition(position.x + xDif, position.y - j);
-			// 					break;
-			// 				}
-
-			// 				me.setPosition(position.x + xDif, position.y - maxYDistance);
-			// 			}
-			// 			continue;
-			// 		}
-			// 	}
 			}
 
 			QueuePersonCommand(me.name, command, true);

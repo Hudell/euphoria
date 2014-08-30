@@ -215,7 +215,7 @@ function ObjectClass(name) {
 
 	me.faceRight = function()
 	{
-		me.faceTo(me.getRighttDirection());
+		me.faceTo(me.getRightDirection());
 	};
 
 	me.faceRandom = function()
