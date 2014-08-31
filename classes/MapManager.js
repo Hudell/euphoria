@@ -25,7 +25,7 @@ function MapManagerClass() {
 
 	me.endMapEngine = function()
 	{
-		if (me.currentMap)
+		if (me.currentMap !== null)
 		{
 			me.currentMap.uninitializeMap();
 		}
@@ -56,9 +56,6 @@ function MapManagerClass() {
 
 		if (!IsMapEngineRunning())
 		{
-			if (euphoria.debugging)
-				throw "initialize";
-
 			me.initializeMapEngine();
 			return;
 		}

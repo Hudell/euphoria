@@ -10,7 +10,7 @@ function BaseMapGameState() {
 	me.onRun = function()
 	{
 		euphoria.gravity = true;
-		euphoria.debugging = false;
+		// euphoria.debugging = false;
 		euphoria.player.lives = gameConfig.initialLives;
 
 		me.goToMainMap();
