@@ -210,6 +210,8 @@ function ObjectClass(name) {
 		var direction = me.lastAbsoluteDirection -1;
 		if (direction == -1)
 			direction = 3;
+
+		return direction;
 	};
 
 	me.faceTo = function(direction)

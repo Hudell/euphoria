@@ -12,6 +12,7 @@ function MovableObjectClass(name) {
 	me.ai = null;
 	me.obeyGravityLaws = true;
 	me.gravityStrength = 7;
+	me.boardMapAutoMove = true;
 
 	me.jumpingFrame = 0;
 	me.makeSounds = false;
@@ -430,34 +431,38 @@ function MovableObjectClass(name) {
 		//If it is a board map, keep the object at movement all the time
 		if (euphoria.mapManager.currentMap.boardMap)
 		{
-			me.stepForward();
-
-			if (me !== euphoria.player.person)
+			if (me.boardMapAutoMove === true)
 			{
-				var distance = 30;
+				me.stepForward();
 
-				if (me.isFrontSideObstructed(distance))
+				if (me !== euphoria.player.person)
 				{
-					var canTurnLeft = !me.isLeftSideObstructed(distance);
-					var canTurnRight = !me.isRightSideObstructed(distance);
+					var distance = 10;
 
-					if (canTurnLeft && canTurnRight)
+					if (me.isFrontSideObstructed(distance))
 					{
-						if (Math.floor(Math.random() * 2) == 1)
+						var canTurnLeft = !me.isLeftSideObstructed(distance);
+						var canTurnRight = !me.isRightSideObstructed(distance);
+
+						if (canTurnLeft && canTurnRight)
 						{
+							if (Math.floor(Math.random() * 2) == 1)
+							{
+								me.faceLeft();
+							}
+							else
+							{
+								me.faceRight();
+							}
+						}
+						else if (canTurnLeft)
 							me.faceLeft();
-						}
 						else
-						{
 							me.faceRight();
-						}
 					}
-					else if (canTurnLeft)
-						me.faceLeft();
-					else
-						me.faceRight();
 				}
 			}
+
 		}
 		else if (euphoria.mapManager.currentMap.twoDimensional)
 		{

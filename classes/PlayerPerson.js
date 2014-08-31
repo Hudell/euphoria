@@ -138,23 +138,7 @@ function PlayerPersonClass(name) {
 
 			if (me.nextDirection !== null)
 			{
-				switch(me.nextDirection)
-				{
-					case 0 :
-						position.y -= 10;
-						break;
-					case 1 :
-						position.x -= 10;
-						break;
-					case 2 :
-						position.y += 10;
-						break;
-					case 3 :
-						position.x += 10;
-						break;
-					default :
-						break;
-				}
+				position = me.getNextPosition(me.nextDirection, 10);
 
 				if (!IsPersonObstructed(me.name, position.x, position.y))
 				{
