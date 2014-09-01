@@ -27,7 +27,6 @@ function MapClass(mapName) {
 		{
 			me.objectList = [];
 			me.db.freeAllObjects();
-
 			me.doInitialize();
 			// me.updateEntitiesIgnoreList();
 		}
@@ -139,6 +138,7 @@ function MapClass(mapName) {
 	me.createObject = function(name, className)
 	{
 		var object = me.db.getOrCreateObject(name, className);
+
 		me.registerObject(name, object);
 		return object;
 	};

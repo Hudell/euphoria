@@ -44,6 +44,12 @@ function DbClass() {
 		return object;
 	};
 
+	me.recreateMap = function(mapName, mapClassName)
+	{
+		me.freeMap(mapName);
+		return me.createMap(mapName, mapClassName);
+	};
+
 	me.createMap = function(mapName, mapClassName)
 	{
 		var mapClass = me.getMapClass(mapClassName);
@@ -161,6 +167,14 @@ function DbClass() {
 	me.freeAllObjects = function()
 	{
 		me.objects = [];
+	};
+
+	me.freeMap = function(mapName)
+	{
+		if (me.maps[mapName])
+		{
+			me.maps[mapName] = undefined;
+		}
 	};
 
 	me.freeObject = function(objectName)

@@ -8,6 +8,7 @@ function MapManagerClass() {
 	me.trackedObjects = [];
 	me.touchTrackedObjects = [];
 	me.reopen = false;
+	me.onReboot = null;
 
 	me.superClass = BaseClass;
 	me.superClass();
@@ -39,6 +40,8 @@ function MapManagerClass() {
 
 	me.changeMap = function(map)
 	{
+		var reboot = false;
+
 		euphoria.windowManager.closeAll();
 
 		if (me.currentMap !== null)
@@ -47,20 +50,33 @@ function MapManagerClass() {
 			me.currentMap.uninitializeMap();
 			euphoria.player.unloadPerson();
 		}
+		else
+		{
+			//if there is no current map and the map engine is running... the map engine is rebooting
+			if (IsMapEngineRunning())
+			{
+				reboot = true;
+			}
+		}
 		
 		me.currentMap = map;
 		map.initializeMap();
 		me.currentMap.registerEvents();
 
 		euphoria.windowManager.addScoreBox();
+		euphoria.ranFirstFrame = false;
 
-		if (!IsMapEngineRunning())
+		if (reboot)
+		{
+			me.reopen = true;
+			return;
+		}
+		else if (!IsMapEngineRunning())
 		{
 			me.initializeMapEngine();
 			return;
 		}
 
-		euphoria.ranFirstFrame = false;
 		ChangeMap(map.name);
 	};
 
@@ -69,8 +85,8 @@ function MapManagerClass() {
 		if (me.currentMap !== null)
 		{
 			me.currentMap.createEntities();
-			me.currentMap.doFirstFrame();
 			me.currentMap.resetMap();
+			me.currentMap.doFirstFrame();
 		}
 	};
 
@@ -79,7 +95,6 @@ function MapManagerClass() {
 		if (me.currentMap !== null)
 		{
 			me.currentMap.doFrame();
-
 			me.doTrackObjectDistances();
 		}
 	};

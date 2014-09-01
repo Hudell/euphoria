@@ -426,8 +426,6 @@ function MovableObjectClass(name) {
 
 		me.onFrame();
 
-		var position = me.getMapPosition();
-
 		//If it is a board map, keep the object at movement all the time
 		if (euphoria.mapManager.currentMap && euphoria.mapManager.currentMap.boardMap)
 		{
@@ -475,7 +473,8 @@ function MovableObjectClass(name) {
 				if (me.obeyGravityLaws)
 				{
 					me.applyGravity();
-
+			
+					var position = me.getMapPosition();
 					var originalY = position.y;
 
 					//If the person is obstructed on it's current position, move it a little down so it doesn't get stuck
@@ -491,7 +490,6 @@ function MovableObjectClass(name) {
 						me.setPosition(position.x, position.y);
 				}
 			}
-
 		}
 	};	
 
