@@ -18,7 +18,7 @@ var euphoria = {
 	gravity : true,
 	debugging : false,
 	generateLog : true,
-	generateCallStackFile : true,
+	generateCallStackFile : false,
 	generateCallStackOnLoops : false,
 	flags : {},
 

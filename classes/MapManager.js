@@ -93,6 +93,9 @@ function MapManagerClass() {
 		var callId = euphoria.debug.startedFunction('MapManagerClass.doFirstFrame');
 		if (me.currentMap !== null)
 		{
+			if (euphoria.player.person)
+				euphoria.player.person.restoreDefaultSprite();
+
 			me.currentMap.createEntities();
 			me.currentMap.resetMap();
 			me.currentMap.doFirstFrame();

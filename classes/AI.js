@@ -13,7 +13,7 @@ function AIClass(object) {
 	{
 		var callId = euphoria.debug.startedFunction('AiClass.doFrame', true);
 
-		if (euphoria.paused)
+		if (euphoria.paused || !me.object.created)
 		{
 			return euphoria.debug.endFunction(callId);
 		}
@@ -25,6 +25,7 @@ function AIClass(object) {
 		}
 
 		me.doStep();
+
 		return euphoria.debug.endFunction(callId);
 	};
 

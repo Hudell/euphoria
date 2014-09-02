@@ -422,7 +422,7 @@ function MovableObjectClass(name) {
 
 	me.doFrame = function()
 	{
-		if (euphoria.paused)
+		if (euphoria.paused || !me.created)
 			return;
 
 		if (me.ai !== null)

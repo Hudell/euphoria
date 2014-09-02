@@ -169,6 +169,41 @@ function DebuggerClass() {
 		})(me.currentFunction);
 	};
 
+	me.logArray = function(arrayObj)
+	{
+		for(var i = 0; i < arrayObj.length; i++)
+		{
+			if (typeof(arrayObj[i]) == 'object')
+			{
+				me.logObject(arrayObj[i]);
+			}
+			else
+			{
+				me.log(i + ': ' + arrayObj[i]);
+			}
+		}
+	};
+
+	me.logObjectInstance = function(obj)
+	{
+		if (obj.length !== undefined && obj.indexOf !== undefined)
+		{
+			me.logArray(obj);
+		}
+		else
+		{
+			for (var key in obj)
+			{
+				if (typeof(obj[key]) == 'object')
+				{
+					me.logObject(obj[key]);
+				}
+				else
+					me.log(key + ': ' + obj[key]);
+			}
+		}
+	};
+
 	me.throwError = function(error)
 	{
 		me.saveCallStack('Exception: ' + error);

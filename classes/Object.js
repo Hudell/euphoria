@@ -255,6 +255,20 @@ function ObjectClass(name) {
 		me.lastAbsoluteDirection = direction;
 	};
 
+	me.setSprite = function(spriteName)
+	{
+		var sprite = LoadSpriteset(spriteName);
+		SetPersonSpriteset(me.name, sprite);
+	};
+
+	me.restoreDefaultSprite = function()
+	{
+		if (me.spriteName && me.created)
+		{
+			me.setSprite(me.spriteName);
+		}
+	};
+
 	me.fixFace = function()
 	{
 		if (me.lastAbsoluteDirection === undefined)
