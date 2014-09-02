@@ -114,10 +114,6 @@ function MapClass(mapName) {
 			me.objectList.push({name : name, object : object});
 			object.map = me;
 		}
-		else
-		{
-			throw "object " + name + " is already registered";
-		}
 	};
 
 	me.getObjectIndex = function(name)
