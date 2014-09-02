@@ -7,7 +7,6 @@ function MapClass(mapName) {
 
 	me.name = mapName;
 	me.initialized = false;
-	me.objectList = [];
 	me.twoDimensional = false;
 	me.boardMap = false;
 	me.allowObstructionByPass = false;
@@ -29,10 +28,9 @@ function MapClass(mapName) {
 
 		if (!me.initialized)
 		{
-			me.objectList = [];
 			me.db.freeAllObjects();
 			me.doInitialize();
-			// me.updateEntitiesIgnoreList();
+			me.updateEntitiesIgnoreList();
 		}
 		me.initialized = true;
 
@@ -46,7 +44,7 @@ function MapClass(mapName) {
 		if (me.initialized)
 		{
 			me.doUninitialize();
-			me.objectList = [];
+			me.db.freeAllObjects();
 		}
 		me.initialized = false;
 
@@ -82,22 +80,15 @@ function MapClass(mapName) {
 	{
 		var callId = euphoria.debug.startedFunction('MapClass.updateEntitiesIgnoreList: ' + me.name);
 		
-		for (var i = 0; i < me.objectList.length; i++)
-		{
-			var object = me.objectList[i];
-			object.object.updateIgnoreList();
-		}
+		me.db.updateEntitiesIgnoreList();
 
 		euphoria.debug.endFunction(callId);
 	};
 
 	me.doFrame = function()
 	{
-		for (var i = 0; i < me.objectList.length; i++)
-		{
-			me.objectList[i].object.doFrame();
-		}
-
+		me.db.doEntitiesFrame();
+		
 		euphoria.player.person.doFrame();
 		me.doMapFrame();
 	};
@@ -107,51 +98,9 @@ function MapClass(mapName) {
 
 	};
 
-	me.registerObject = function(name, object)
-	{
-		if (me.findObject(name) === null)
-		{
-			me.objectList.push({name : name, object : object});
-			object.map = me;
-		}
-	};
-
-	me.getObjectIndex = function(name)
-	{
-		for (var i = 0; i < me.objectList.length; i++)
-		{
-			if (me.objectList[i].name == name)
-			{
-				return i;
-			}
-		}
-
-		return false;
-	};
-
-	me.freeObject = function(name)
-	{
-		var idx = me.getObjectIndex(name);
-		if (idx !== false)
-		{
-			me.objectList.splice(idx, 1);
-		}
-	};
-
-	me.findObject = function(name)
-	{
-		var idx = me.getObjectIndex(name);
-		if (idx !== false)
-			return me.objectList[idx].object;
-		else
-			return null;
-	};
-
 	me.createObject = function(name, className)
 	{
 		var object = me.db.getOrCreateObject(name, className);
-
-		me.registerObject(name, object);
 		return object;
 	};
 
@@ -172,15 +121,12 @@ function MapClass(mapName) {
 		RequireScript("euphoria/classes/Chest.js");
 		
 		var chest = me.db.createSimpleChest(name, spriteName);
-		me.registerObject(name, chest);
-
 		return euphoria.debug.endFunction(callId, chest);
 	};
 
 	me.createSimpleObject = function(name, spriteName)
 	{
 		var object = me.db.createSimpleObject(name, spriteName);
-		me.registerObject(name, object);
 		return object;
 	};
 
@@ -189,7 +135,6 @@ function MapClass(mapName) {
 		RequireScript("euphoria/classes/Person.js");
 
 		var person = me.db.createSimplePerson(name, spriteName);
-		me.registerObject(name, person);
 		return person;
 	};
 
@@ -212,14 +157,7 @@ function MapClass(mapName) {
 	{
 		var callId = euphoria.debug.startedFunction('MapClass.createEntities: ' + me.name);
 
-		for (var i = 0; i < me.objectList.length; i++)
-		{
-			var object = me.objectList[i];
-			if (!object.object.spriteName)
-			{
-				object.object.createEntity(true);
-			}
-		}
+		me.db.createEntities();
 
 		euphoria.debug.endFunction(callId);
 	};

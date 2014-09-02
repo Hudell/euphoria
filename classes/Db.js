@@ -196,7 +196,7 @@ function DbClass() {
 
 	me.freeAllObjects = function()
 	{
-		me.objects = [];
+		me.objects = {};
 	};
 
 	me.freeMap = function(mapName)

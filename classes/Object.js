@@ -8,7 +8,6 @@ function ObjectClass(name) {
 	me.name = name;
 	me.spriteName = null;
 	me.created = false;
-	me.map = null;
 	me.ignoreObstructions = false;
 
 	me.superClass = BaseClass;
@@ -439,7 +438,5 @@ function ObjectClass(name) {
 	me.onDestroy = function()
 	{	
 		me.created = false;
-		if (me.map)
-			me.map.freeObject(me.name);
 	};
 }

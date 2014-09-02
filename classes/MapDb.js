@@ -7,6 +7,46 @@ function MapDbClass() {
 	me.superClass = DbClass;
 	me.superClass();
 
+	me.createEntities = function()
+	{
+		var callId = euphoria.debug.startedFunction('DbClass.createEntities');
+
+		for (var key in me.objects)
+		{
+			var object = me.objects[key];
+			if (!object.spriteName)
+				object.createEntity(true);
+		}
+
+		euphoria.debug.endFunction(callId);
+	};
+
+	me.updateEntitiesIgnoreList = function()
+	{
+		var callId = euphoria.debug.startedFunction('DbClass.updateEntitiesIgnoreList');
+		
+		for (var key in me.objects)
+		{
+			var object = me.objects[key];
+			object.updateIgnoreList();
+		}
+
+		euphoria.debug.endFunction(callId);
+	};
+
+	me.doEntitiesFrame = function()
+	{
+		var callId = euphoria.debug.startedFunction('DbClass.doFrame');
+		
+		for (var key in me.objects)
+		{
+			var object = me.objects[key];
+			object.doFrame();
+		}
+
+		euphoria.debug.endFunction(callId);
+	};
+
 	/*
 		You can call those methods:
 
