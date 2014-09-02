@@ -3,6 +3,8 @@ RequireScript("euphoria/classes/Person.js");
 function PlayerPersonClass(name) {
 	var me = this;
 
+	euphoria.debug.instantiate('PlayerPersonClass:' + name);
+
 	me.superClass = PersonClass;
 	me.superClass(name);
 	me.myFontColor = CreateColor(0, 0, 0);

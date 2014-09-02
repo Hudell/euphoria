@@ -21,18 +21,24 @@ function GameStateManagerClass() {
 
 	me.changeState = function(state)
 	{
+		var callId = euphoria.debug.startedFunction('GameStateManagerClass.changeState');
+
 		me.releaseCurrentState();
 		me.addState(state);
+
+		euphoria.debug.endFunction(callId);
 	};
 
 	me.releaseCurrentState = function()
 	{
+		var callId = euphoria.debug.startedFunction('GameStateManagerClass.releaseCurrentState');
 		if (me.stack.length === 0)
 		{
-			return;
+			return euphoria.debug.endFunction(callId, null);
 		}
 
 		var state = me.stack[me.stack.length -1];
+		var oldStateName = state.name;
 		state.doLosePriority();
 		state.end();
 		me.stack.splice(me.stack.length -1, 1);
@@ -42,6 +48,8 @@ function GameStateManagerClass() {
 			state = me.stack[me.stack.length -1];
 			state.doGetPriority();
 		}
+
+		return euphoria.debug.endFunction(callId, oldStateName);
 	};
 
 	me.releaseAllStates = function()
@@ -70,7 +78,7 @@ function GameStateManagerClass() {
 			var state = me.stack[i];
 
 			state[eventName]();
-		}		
+		}
 	};
 
 	me.doFirstFrame = function()

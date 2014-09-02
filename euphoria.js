@@ -1,5 +1,6 @@
 var euphoria = {
 	ranFirstFrame : false,
+	debug : new DebuggerClass(),
 	player : new PlayerClass(),
 	mapManager : new MapManagerClass(),
 	keyboardEvents : new KeyboardEventsClass(),
@@ -11,19 +12,20 @@ var euphoria = {
 	allowMusic : true,
 	allowSoundEffects : true,
 	allowJumpingEffect : true,
-	debugging : false,
 	canMove : true,
 	score : 0,
 	paused : false,
 	gravity : true,
+	debugging : false,
+	generateLog : true,
+	generateCallStackFile : true,
+	generateCallStackOnLoops : false,
 	flags : {},
 
 	startGame : function(initialStateManager)
 	{
 		SetRenderScript("euphoria.doFrame()");
-
-		scriptManager.bindKey(KEY_D, function(){ euphoria.debug(); }, null);
-
+		scriptManager.bindKey(KEY_D, function(){ euphoria.doDebug(); }, null);
 		this.gameStateManager.addState(initialStateManager);
 	},
 
@@ -52,10 +54,12 @@ var euphoria = {
 			return this.globalDb;
 	},
 
-	debug : function()
+	doDebug : function()
 	{
 		this.debugging = true;
 
 		//add debug functions here
 	}
 };
+
+euphoria.debug.log('Run');

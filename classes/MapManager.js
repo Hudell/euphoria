@@ -8,24 +8,29 @@ function MapManagerClass() {
 	me.trackedObjects = [];
 	me.touchTrackedObjects = [];
 	me.reopen = false;
-	me.onReboot = null;
 
 	me.superClass = BaseClass;
 	me.superClass();
 
 	me.initializeMapEngine = function()
 	{
+		var callId = euphoria.debug.startedFunction('MapManagerClass.initializeMapEngine');
+
+		euphoria.ranFirstFrame = false;
 		MapEngine(me.currentMap.name, me.fps);
 
-		if (me.reopen)
-		{
-			me.reopen = false;
-			me.initializeMapEngine();
-		}
+		// if (me.reopen)
+		// {
+		// 	me.reopen = false;
+		// 	me.initializeMapEngine();
+		// }
+
+		euphoria.debug.endFunction(callId);
 	};
 
 	me.endMapEngine = function()
 	{
+		var callId = euphoria.debug.startedFunction('MapManagerClass.endMapEngine');
 		if (me.currentMap !== null)
 		{
 			me.currentMap.uninitializeMap();
@@ -36,10 +41,18 @@ function MapManagerClass() {
 		{
 			ExitMapEngine();
 		}
+
+		euphoria.debug.endFunction(callId);
+	};
+
+	me.releaseMapEngine = function()
+	{
+		me.endMapEngine();
 	};
 
 	me.changeMap = function(map)
 	{
+		var callId = euphoria.debug.startedFunction('MapManagerClass.changeMap(' + map + ')');
 		var reboot = false;
 
 		euphoria.windowManager.closeAll();
@@ -50,44 +63,41 @@ function MapManagerClass() {
 			me.currentMap.uninitializeMap();
 			euphoria.player.unloadPerson();
 		}
-		else
-		{
-			//if there is no current map and the map engine is running... the map engine is rebooting
-			if (IsMapEngineRunning())
-			{
-				reboot = true;
-			}
-		}
 		
 		me.currentMap = map;
 		map.initializeMap();
 		me.currentMap.registerEvents();
 
 		euphoria.windowManager.addScoreBox();
-		euphoria.ranFirstFrame = false;
 
 		if (reboot)
 		{
-			me.reopen = true;
+			// me.reopen = true;
+			euphoria.debug.endFunction(callId);
 			return;
 		}
 		else if (!IsMapEngineRunning())
 		{
 			me.initializeMapEngine();
+			euphoria.debug.endFunction(callId);
 			return;
 		}
 
+		euphoria.ranFirstFrame = false;
 		ChangeMap(map.name);
+		euphoria.debug.endFunction(callId);
 	};
 
 	me.doFirstFrame = function()
 	{
+		var callId = euphoria.debug.startedFunction('MapManagerClass.doFirstFrame');
 		if (me.currentMap !== null)
 		{
 			me.currentMap.createEntities();
 			me.currentMap.resetMap();
 			me.currentMap.doFirstFrame();
 		}
+		euphoria.debug.endFunction(callId);
 	};
 
 	me.doFrame = function()

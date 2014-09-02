@@ -3,6 +3,8 @@ RequireScript("euphoria/classes/BaseClass.js");
 function ObjectClass(name) {
 	var me = this;
 
+	euphoria.debug.instantiate('ObjectClass:' + name);
+
 	me.name = name;
 	me.spriteName = null;
 	me.created = false;
@@ -18,6 +20,7 @@ function ObjectClass(name) {
 
 	me.createEntity = function(destroyWithMap)
 	{
+		var callId = euphoria.debug.startedFunction('ObjectClass.createEntity: ' + me.name);
 		if (me.created)
 			return me;
 
@@ -37,7 +40,7 @@ function ObjectClass(name) {
 		me.registerEvents();
 
 		me.onCreate();
-		return me;
+		return euphoria.debug.endFunction(callId, me);
 	};
 
 	me.hideEntity = function()

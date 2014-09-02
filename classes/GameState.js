@@ -3,8 +3,11 @@ RequireScript("euphoria/classes/BaseClass.js");
 function GameStateClass() {
 	var me = this;
 
+	euphoria.debug.instantiate('GameStateClass');
+	
 	me.superClass = BaseClass;
 	me.superClass();
+
 	me.name = null;
 	me.hasPriority = false;
 

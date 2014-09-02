@@ -3,6 +3,8 @@ RequireScript("euphoria/classes/BaseClass.js");
 function MapClass(mapName) {
 	var me = this;
 
+	euphoria.debug.instantiate('MapClass:' + mapName);
+
 	me.name = mapName;
 	me.initialized = false;
 	me.objectList = [];
@@ -23,6 +25,8 @@ function MapClass(mapName) {
 
 	me.initializeMap = function()
 	{
+		var callId = euphoria.debug.startedFunction('MapClass.initializeMap: ' + me.name);
+
 		if (!me.initialized)
 		{
 			me.objectList = [];
@@ -31,16 +35,22 @@ function MapClass(mapName) {
 			// me.updateEntitiesIgnoreList();
 		}
 		me.initialized = true;
+
+		euphoria.debug.endFunction(callId);
 	};
 
 	me.uninitializeMap = function()
 	{
+		var callId = euphoria.debug.startedFunction('MapClass.uninitializeMap: ' + me.name);
+
 		if (me.initialized)
 		{
 			me.doUninitialize();
 			me.objectList = [];
 		}
 		me.initialized = false;
+
+		euphoria.debug.endFunction(callId);
 	};
 
 	me.registerEvents = function()
@@ -70,11 +80,15 @@ function MapClass(mapName) {
 
 	me.updateEntitiesIgnoreList = function()
 	{
+		var callId = euphoria.debug.startedFunction('MapClass.updateEntitiesIgnoreList: ' + me.name);
+		
 		for (var i = 0; i < me.objectList.length; i++)
 		{
 			var object = me.objectList[i];
 			object.object.updateIgnoreList();
 		}
+
+		euphoria.debug.endFunction(callId);
 	};
 
 	me.doFrame = function()
@@ -85,7 +99,6 @@ function MapClass(mapName) {
 		}
 
 		euphoria.player.person.doFrame();
-
 		me.doMapFrame();
 	};
 
@@ -100,7 +113,10 @@ function MapClass(mapName) {
 		{
 			me.objectList.push({name : name, object : object});
 			object.map = me;
-			return;
+		}
+		else
+		{
+			throw "object " + name + " is already registered";
 		}
 	};
 
@@ -145,19 +161,24 @@ function MapClass(mapName) {
 
 	me.createBatchOfObjects = function(name, className, max)
 	{
+		var callId = euphoria.debug.startedFunction('MapClass.createBatchOfObjects: ' + me.name + '(' + name + ', ' + className + ', ' + max + ')');
 		for (var i = 1; i <= max; i++)
 		{
 			me.createObject(name + '_' + i, className);
 		}
+		
+		euphoria.debug.endFunction(callId);
 	};
 
 	me.createSimpleChest = function(name, spriteName)
 	{
+		var callId = euphoria.debug.startedFunction('MapClass.createSimpleChest: ' + me.name + '(' + name + ', ' + spriteName + ')');
 		RequireScript("euphoria/classes/Chest.js");
 		
 		var chest = me.db.createSimpleChest(name, spriteName);
 		me.registerObject(name, chest);
-		return chest;
+
+		return euphoria.debug.endFunction(callId, chest);
 	};
 
 	me.createSimpleObject = function(name, spriteName)
@@ -193,6 +214,8 @@ function MapClass(mapName) {
 
 	me.createEntities = function()
 	{
+		var callId = euphoria.debug.startedFunction('MapClass.createEntities: ' + me.name);
+
 		for (var i = 0; i < me.objectList.length; i++)
 		{
 			var object = me.objectList[i];
@@ -201,6 +224,8 @@ function MapClass(mapName) {
 				object.object.createEntity(true);
 			}
 		}
+
+		euphoria.debug.endFunction(callId);
 	};
 
 	me.doFirstFrame = function()

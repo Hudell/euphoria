@@ -3,6 +3,8 @@ RequireScript("euphoria/gameStates/Menu.js");
 function QuestionState(text, answers) {
 	var me = this;
 
+	euphoria.debug.instantiate('QuestionState:' + me.name + '(' + text + ')');
+
 	me.superClass = BaseMenuState;
 	me.superClass(null);
 	me.name = "Question";

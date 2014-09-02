@@ -4,6 +4,8 @@ function PersonClass(name)
 {
 	var me = this;
 
+	euphoria.debug.instantiate('PersonClass:' + name);
+
 	me.speaking = false;
 	me.currentConversation = null;
 	me.currentConversationIndex = -1;

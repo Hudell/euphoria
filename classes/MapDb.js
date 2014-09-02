@@ -2,6 +2,7 @@ RequireScript("euphoria/classes/Db.js");
 
 function MapDbClass() {
 	var me = this;
+	euphoria.debug.instantiate('MapDbClass');
 
 	me.superClass = DbClass;
 	me.superClass();
@@ -20,10 +21,9 @@ function MapDbClass() {
 		these are internal, but not redirected:
 
 		registerObject(objectName, objectInstance)
-	/*
 
-	/*
-		DON'T CALL ANY OF THESE METHODS.
+
+		DON'T CALL ANY OF THE METHODS BELOW THIS POINT.
 
 		You should call the euphoria.globalDb version instead, but even if you call from here, this class will just redirect the call to there.
 	*/

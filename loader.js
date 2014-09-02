@@ -1,6 +1,9 @@
 RequireScript("euphoria/extensions/Array.js");
+RequireScript("euphoria/extensions/String.js");
 
 RequireScript("euphoria/defaultConfig.js");
+
+RequireScript("euphoria/classes/Debugger.js");
 
 RequireScript("euphoria/classes/Db.js");
 RequireScript("euphoria/classes/MapDb.js");

@@ -3,6 +3,8 @@ RequireScript("euphoria/classes/Object.js");
 function MovableObjectClass(name) {
 	var me = this;
 
+	euphoria.debug.instantiate('MovableObjectClass:' + name);
+
 	me.superClass = ObjectClass;
 	me.superClass(name);
 
@@ -18,8 +20,10 @@ function MovableObjectClass(name) {
 	me.makeSounds = false;
 	me.animationFrame = 0;
 
-	me.stepTo = function(direction, numSteps)
+	me.stepTo = function(direction, numSteps)	
 	{
+		var callId = euphoria.debug.startedFunction('MovableObjectClass[' + me.name + '].stepTo', true);
+
 		var command = null;
 		me.lastDirection = direction;
 
@@ -115,6 +119,8 @@ function MovableObjectClass(name) {
 
 			QueuePersonCommand(me.name, command, true);
 		}
+
+		euphoria.debug.endFunction(callId);
 	};
 
 	me.checkCollision = function()

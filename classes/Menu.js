@@ -3,6 +3,8 @@ RequireScript("euphoria/classes/BaseClass.js");
 function MenuClass() {
 	var me = this;
 
+	euphoria.debug.instantiate('MenuClass');
+
 	me.superClass = BaseClass;
 	me.superClass();
 

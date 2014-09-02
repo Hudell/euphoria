@@ -3,17 +3,22 @@ RequireScript("euphoria/classes/GameState.js");
 function BaseMapGameState() {
 	var me = this;
 
+	euphoria.debug.instantiate('BaseMapGameState');
+
 	me.superClass = GameStateClass;
 	me.superClass();
 	me.name = "Map";
 
 	me.onRun = function()
 	{
+		var callId = euphoria.debug.startedFunction('BaseMapGameState.onRun');
 		euphoria.gravity = true;
 		// euphoria.debugging = false;
 		euphoria.player.lives = gameConfig.initialLives;
 
 		me.goToMainMap();
+
+		euphoria.debug.endFunction(callId);
 	};
 
 	me.bindStateKeys = function()
@@ -26,10 +31,14 @@ function BaseMapGameState() {
 
 	me.onEnd = function()
 	{
+		var callId = euphoria.debug.startedFunction('BaseMapGameState.onEnd');
+
 		euphoria.keyboardEvents.safeUnbind(KEY_ESCAPE);
 		euphoria.soundManager.stopSong();
 		euphoria.windowManager.closeAll();
-		euphoria.mapManager.endMapEngine();
+		// euphoria.mapManager.endMapEngine();
+
+		euphoria.debug.endFunction(callId);
 	};
 
 	me.onMapFrame = function()
@@ -58,8 +67,12 @@ function BaseMapGameState() {
 
 	me.resetPlayer = function()
 	{
+		var callId = euphoria.debug.startedFunction('BaseMapGameState.resetPlayer');
+
 		if (!me.isInStage())
-			return;
+		{
+			return euphoria.debug.endFunction(callId);
+		}
 
 		var player = me.getPlayerObject();
 		var position = euphoria.mapManager.currentMap.getDefaultPosition();
@@ -71,13 +84,15 @@ function BaseMapGameState() {
 		if (euphoria.player.lives === 0)
 		{
 			me.doGameOver();
-			return;
+			return euphoria.debug.endFunction(callId);
 		}
 
 		if (euphoria.mapManager.currentMap !== null)
 		{
 			euphoria.mapManager.currentMap.resetMap();
 		}
+
+		return euphoria.debug.endFunction(callId);
 	};
 
 	me.doGameOver = function()
@@ -102,11 +117,15 @@ function BaseMapGameState() {
 
 	me.onLosePriority = function()
 	{
+		var callId = euphoria.debug.startedFunction('BaseMapGameState.onLosePriority');
 		euphoria.canMove = false;
+		euphoria.debug.endFunction(callId);
 	};
 
 	me.onGetPriority = function()
 	{
+		var callId = euphoria.debug.startedFunction('BaseMapGameState.onGetPriority');
 		euphoria.canMove = true;
+		euphoria.debug.endFunction(callId);
 	};	
 }

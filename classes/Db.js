@@ -23,70 +23,87 @@ function DbClass() {
 
 	me.createObject = function(objectName, objectClassName)
 	{
+		var callId = euphoria.debug.startedFunction('DbClass.createObject(' + objectName + ', ' + objectClassName + ')');
+
 		var objectClass = me.getObjectClass(objectClassName);
 		var object = new objectClass(objectName);
 		me.registerObject(objectName, object);
-		return object;
+
+		return euphoria.debug.endFunction(callId, object);
 	};
 
 	me.getObject = function(objectName)
 	{
-		return me.objects[objectName];
+		var callId = euphoria.debug.startedFunction('DbClass.getObject(' + objectName + ')');
+		return euphoria.debug.endFunction(callId, me.objects[objectName]);
 	};
 
 	me.getOrCreateObject = function(objectName, objectClassName)
 	{
+		var callId = euphoria.debug.startedFunction('DbClass.getOrCreateObject(' + objectName + ', ' + objectClassName + ')');
+
 		var object = me.getObject(objectName);
 		if (object)
-			return object;
+			return euphoria.debug.endFunction(callId, object);
 
 		object = me.createObject(objectName, objectClassName);
-		return object;
+		return euphoria.debug.endFunction(callId, object);
 	};
 
 	me.recreateMap = function(mapName, mapClassName)
 	{
+		var callId = euphoria.debug.startedFunction('DbClass.recreateMap(' + mapName + ', ' + mapClassName + ')');
+
 		me.freeMap(mapName);
-		return me.createMap(mapName, mapClassName);
+		return euphoria.debug.endFunction(callId, me.createMap(mapName, mapClassName));
 	};
 
 	me.createMap = function(mapName, mapClassName)
 	{
+		var callId = euphoria.debug.startedFunction('DbClass.createMap(' + mapName + ', ' + mapClassName + ')');
+
 		var mapClass = me.getMapClass(mapClassName);
 		var map = new mapClass(mapName);
 		me.registerMap(mapName, map);
-		return map;
+
+		return euphoria.debug.endFunction(callId, map);
 	};
 
 	me.getMap = function(mapName)
 	{
-		return me.maps[mapName];
+		var callId = euphoria.debug.startedFunction('DbClass.getMap(' + mapName + ')');
+		return euphoria.debug.endFunction(callId, me.maps[mapName]);
 	};
 
 	me.getOrCreateMap = function(mapName, mapClassName)
 	{
+		var callId = euphoria.debug.startedFunction('DbClass.getOrCreateMap(' + mapName + ', ' + mapClassName + ')');
+
 		var map = me.getMap(mapName);
 		if (!map)
 		{
 			map = me.createMap(mapName, mapClassName);
 		}
 
-		return map;
+		return euphoria.debug.endFunction(callId, map);
 	};
 
 	me.getItem = function(itemClassName)
 	{
+		var callId = euphoria.debug.startedFunction('DbClass.getItem(' + itemClassName + ')');
 		var item = me.items[itemClassName];
 		if (!item)
 		{
 			item = me.createItem(itemClassName);
 		}
 
-		return item;
+		return euphoria.debug.endFunction(callId, item);
 	};
 
 	me.createSimpleChest = function(name, spriteName)
 	{
+		var callId = euphoria.debug.startedFunction('DbClass.createSimpleChest(' + name + ', ' + spriteName + ')');
+
 		var chest = me.getObject(name);		
 		if (!chest)
 			chest = new ChestClass(name);
@@ -94,11 +111,13 @@ function DbClass() {
 		chest.spriteName = spriteName;
 		me.registerObject(name, chest);
 
-		return chest;
+		return euphoria.debug.endFunction(callId, chest);
 	};
 
 	me.createSimpleObject = function(name, spriteName)
 	{
+		var callId = euphoria.debug.startedFunction('DbClass.createSimpleObject(' + name + ', ' + spriteName + ')');
+
 		var object = me.getObject(name);
 		if (!object)
 			object = new ObjectClass(name);
@@ -106,11 +125,13 @@ function DbClass() {
 		object.spriteName = spriteName;
 		me.registerObject(name, object);
 
-		return object;
+		return euphoria.debug.endFunction(callId, object);
 	};
 
 	me.createSimplePerson = function(name, spriteName)
 	{
+		var callId = euphoria.debug.startedFunction('DbClass.createSimplePerson(' + name + ', ' + spriteName + ')');
+
 		var person = me.getObject(name);
 		if (!person)
 			person = new PersonClass(name);
@@ -118,46 +139,55 @@ function DbClass() {
 		person.spriteName = spriteName;
 		me.registerObject(name, person);
 
-		return person;
+		return euphoria.debug.endFunction(callId, person);
 	};
 
 	me.loadImage = function(imageFileName)
 	{
+		var callId = euphoria.debug.startedFunction('DbClass.loadImage(' + imageFileName + ')', true);
+
 		if (me.loadedImages[imageFileName])
 		{
-			return me.loadedImages[imageFileName];
+			var result = me.loadedImages[imageFileName];
+			return euphoria.debug.endFunction(callId, result);
 		}
 
 		var image = LoadImage(imageFileName);
 		me.loadedImages[imageFileName] = image;
 
-		return image;
+		return euphoria.debug.endFunction(callId, image);
 	};
 
 	me.loadSong = function(songFileName)
 	{
+		var callId = euphoria.debug.startedFunction('DbClass.loadSong(' + songFileName + ')');
+
 		if (me.loadedSongs[songFileName])
 		{
-			return me.loadedSongs[songFileName];
+			var result = me.loadedSongs[songFileName];
+			return euphoria.debug.endFunction(callId, result);
 		}
 
 		var song = LoadSound(songFileName);
 		me.loadedSongs[songFileName] = song;
 
-		return song;
+		return euphoria.debug.endFunction(callId, song);
 	};
 
 	me.loadSoundEffect = function(soundEffectFileName)
 	{
+		var callId = euphoria.debug.startedFunction('DbClass.loadSoundEffect(' + soundEffectFileName + ')');
+
 		if (me.loadedSoundEffects[soundEffectFileName])
 		{
-			return me.loadedSoundEffects[soundEffectFileName];
+			var result = me.loadedSoundEffects[soundEffectFileName];
+			return euphoria.debug.endFunction(callId, result);
 		}
 
 		var soundEffect = LoadSoundEffect(soundEffectFileName, SE_MULTIPLE);
 		me.loadedSoundEffects[soundEffectFileName] = soundEffect;
-		
-		return soundEffect;
+	
+		return euphoria.debug.endFunction(callId, soundEffect);
 	};
 
 	/*

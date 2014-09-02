@@ -3,6 +3,8 @@ RequireScript("euphoria/classes/GameState.js");
 function BaseMenuState(options) {
 	var me = this;
 
+	euphoria.debug.instantiate('BaseMenuState:' + me.name);
+
 	me.superClass = GameStateClass;
 	me.superClass();
 	me.name = "BaseMenu";

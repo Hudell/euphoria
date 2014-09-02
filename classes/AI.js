@@ -2,6 +2,7 @@ RequireScript("euphoria/classes/BaseClass.js");
 
 function AIClass(object) {
 	var me = this;
+	euphoria.debug.instantiate('AIClass:' + me.name);
 
 	me.object = object;
 	me.superClass = BaseClass;
@@ -10,8 +11,12 @@ function AIClass(object) {
 
 	me.doFrame = function()
 	{
+		var callId = euphoria.debug.startedFunction('AiClass.doFrame', true);
+
 		if (euphoria.paused)
-			return;
+		{
+			return euphoria.debug.endFunction(callId);
+		}
 
 		if (me.firstStep !== true)
 		{
@@ -20,6 +25,7 @@ function AIClass(object) {
 		}
 
 		me.doStep();
+		return euphoria.debug.endFunction(callId);
 	};
 
 	me.doFirstStep = function()
